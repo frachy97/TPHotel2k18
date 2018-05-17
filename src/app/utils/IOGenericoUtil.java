@@ -6,7 +6,9 @@ public class IOGenericoUtil {
 
     private IOGenericoUtil() {
     }
-
+    
+    /*Metodos estaticos para escribir y leer en archivos. T extiende de Serializable y Map, haciendo que
+    * cualquier objeto que no los implemente, no pueda ser pasado por parametro.*/
     public static <T extends Serializable> void writeObject(T t, File file) {
 
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
