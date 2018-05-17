@@ -1,6 +1,8 @@
 package app.model;
 
-public abstract class Usuario {
+import java.io.Serializable;
+
+public abstract class Usuario implements Serializable {
 
     private String id;
     private Password password;
@@ -14,6 +16,10 @@ public abstract class Usuario {
 
     public String getId() {
         return id;
+    }
+
+    public Password getPassword() {
+        return password;
     }
 
     @Override

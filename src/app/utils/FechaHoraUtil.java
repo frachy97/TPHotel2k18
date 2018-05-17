@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class FechaHoraUtil {
+    
+    private FechaHoraUtil() {
+    }
 
     public static final DateTimeFormatter formatoFechaHora = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     public static final DateTimeFormatter formatoFecha= DateTimeFormatter.ofPattern("dd/MM/yyyy");
