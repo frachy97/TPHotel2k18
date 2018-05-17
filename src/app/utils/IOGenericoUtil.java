@@ -20,6 +20,7 @@ public class IOGenericoUtil {
         }
     }
 
+    // TODO: 16/05/2018 Verificar que ocurre si el metodo retorna null
     @SuppressWarnings("unchecked")
     public static <T extends Serializable> T readObject(File file) {
 
