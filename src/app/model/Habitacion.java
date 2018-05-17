@@ -3,7 +3,9 @@ package app.model;
 import app.enums.EstadoHab;
 import app.enums.TipoHab;
 
-public class Habitacion {
+import java.io.Serializable;
+
+public class Habitacion implements Serializable {
 
     private String numero;
     private EstadoHab estado;
@@ -31,5 +33,11 @@ public class Habitacion {
 
     public double getPrecioPorDia() {
         return precioPorDia;
+    }
+
+    @Override
+    public String toString() {
+        return "Habitacion " + numero + "\nTipo: " + tipo + "\nPrecio: " + precioPorDia + " x dia" + "\n" +
+                "Estado: " + estado + "\n";
     }
 }

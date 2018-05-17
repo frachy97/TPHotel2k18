@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ocupacion extends Entrada {
+public class Ocupacion {
 
     private static int contador = 0;
 

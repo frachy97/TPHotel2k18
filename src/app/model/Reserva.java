@@ -2,12 +2,13 @@ package app.model;
 
 import app.enums.EstadoHab;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Reserva extends Entrada {
+public class Reserva implements Serializable {
 
-    private static int contadorReservas = 0;
+    private static int contadorReservas;
 
     private String nroReserva;
     private Cliente cliente;
