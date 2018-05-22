@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Password implements Serializable {
 
-    private static final int LONGITUD_MIN = 6;
+    private static final int LONGITUD_MIN = 8;
     private static final int LONGITUD_MAX = 20;
 
     private String clave;
