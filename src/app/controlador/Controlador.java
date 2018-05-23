@@ -1,7 +1,10 @@
 package app.controlador;
 
+import app.model.Admin;
 import app.model.Hotel;
+import app.utils.IOGenericoUtil;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class Controlador {
@@ -17,10 +20,10 @@ public class Controlador {
     public void inicio() {
 
         boolean flag = false;
-        System.out.println(hotel.getAdmin().getId());
-        System.out.println(hotel.getAdmin().getPassword().getClave());
-
-
+        Admin admin = IOGenericoUtil.leerObjeto(new File("admin.dat"));
+        if (admin == null) {
+            admin = hotel.getAdmin();
+        }
 
         while (flag == false) {
 
@@ -29,8 +32,8 @@ public class Controlador {
             System.out.print("Ingrese clave: ");
             String idPassword = input.nextLine();
 
-            if (idLogin.equals(hotel.getAdmin().getId())) {
-                if (idPassword.equals(hotel.getAdmin().getPassword().getClave())) {
+            if (idLogin.equals(admin.getId())) {
+                if (idPassword.equals(admin.getPassword().getClave())) {
                     System.out.println("Inicio sesion exitoso.");
                     flag = true;
                 } else {
