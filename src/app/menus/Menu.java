@@ -48,6 +48,43 @@ public class Menu {
         seleccionOpcion();
     }
 
+    public static void conserjeMain() {
+        System.out.println("1. Gestion de reservas");
+        System.out.println("2. Gestion de clientes");
+        System.out.println("3. Gestion de habitaciones");
+        System.out.println();
+        System.out.println("0. Cerrar sesion");
+        seleccionOpcion();
+    }
+
+    public static void conserjeSubMenuReservas() {
+        System.out.println("1. Generar reserva");
+        System.out.println("2. Check-in");
+        System.out.println("3. Check-out");
+        System.out.println("4. Ver reservas");
+        System.out.println("5. Cancelar reserva");
+        System.out.println("6. Agregar consumo en una habitacion");
+        System.out.println();
+        System.out.println("0. Volver");
+        seleccionOpcion();
+    }
+
+    public static void conserjeSubMenuClientes() {
+        System.out.println("1. Ver lista de clientes");
+        System.out.println("2. Modificar datos de un cliente");
+        System.out.println();
+        System.out.println("0. Volver");
+        seleccionOpcion();
+    }
+
+    public static void conserjeSubMenuHabitaciones() {
+        System.out.println("1. Ver habitaciones libres");
+        System.out.println("2. Ver habitaciones ocupadas");
+        System.out.println();
+        System.out.println("0. Volver");
+        seleccionOpcion();
+    }
+
     private static void seleccionOpcion() {
         System.out.print("Seleccione ... ");
     }
