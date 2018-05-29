@@ -42,7 +42,7 @@ public class Controlador {
             hotel.setAdmin(new Admin("admin", new Password("password"), "nombre"));
         }
 
-        String opcion = null;
+        String opcion;
 
         while (loginExitoso == false) {
 
@@ -178,6 +178,8 @@ public class Controlador {
                 Conserje conserje = hotel.getConserjes().get(idLogin);
                 System.out.println("Ha iniciado sesion como Conserje. Bienvenido " + conserje.getNombre());
                 loginExitoso = true;
+                
+
             } else {
                 System.out.println("El ID de usuario no existe o la contraseña es incorrecta.");
             }
