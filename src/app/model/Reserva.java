@@ -32,4 +32,10 @@ public class Reserva implements Serializable {
         this.fechaIngreso = fechaIngreso;
         this.fechaSalida = fechaSalida;
     }
+
+	public List<Producto> getConsumos() {
+		return consumos;
+	}
+    
+    
 }
