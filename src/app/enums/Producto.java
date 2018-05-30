@@ -27,7 +27,7 @@ public enum Producto {
 		Producto aux = null;
 		 for(Producto prod : Producto.values())
 		    {
-		        if(prod.getID()== identificador)
+		        if(prod.getID().equals(identificador))
 		        {
 		        	aux= prod;
 		        }

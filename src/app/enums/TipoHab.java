@@ -25,7 +25,7 @@ public enum TipoHab {
 		TipoHab aux = null;
 		 for(TipoHab tipo : TipoHab.values())
 		    {
-		        if(tipo.getID()== identificador)
+		        if(tipo.getID().equals(identificador))
 		        {
 		        	aux= tipo;
 		        }

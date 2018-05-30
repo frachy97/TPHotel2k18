@@ -20,7 +20,7 @@ public enum EstadoHab {
 		EstadoHab aux = null;
 		 for(EstadoHab estado: EstadoHab.values())
 		    {
-		        if(estado.getID()== identificador)
+		        if(estado.getID().equals(identificador))
 		        {
 		        	aux= estado;
 		        }

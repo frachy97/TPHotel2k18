@@ -4,35 +4,34 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
-
-import app.controlador.Controlador;
 import app.enums.EstadoHab;
 import app.menus.Menu;
 
 public class Hotel {
 
-	private static Hotel laInstancia = new Hotel();
+    private static Hotel laInstancia = new Hotel();
 
-	private TreeMap<String, Habitacion> habitaciones = new TreeMap<>();// String
-																		// numero
-	private TreeMap<String, Conserje> conserjes = new TreeMap<>();
-	private TreeMap<String, Cliente> clientes = new TreeMap<>();// String dni
-	private TreeMap<String, Reserva> reservas = new TreeMap<>();
-	private Admin admin = new Admin("admin", new Password("password"), "nombre");
-	private double totalIngresos = 0;
+    private TreeMap<String, Habitacion> habitaciones = new TreeMap<>();
+    private TreeMap<String, Conserje> conserjes = new TreeMap<>();
+    private TreeMap<String, Cliente> clientes = new TreeMap<>();
+    private TreeMap<String, Reserva> reservas = new TreeMap<>();
+    private Admin admin = new Admin("admin", new Password("password"), "nombre");
+    private double totalIngresos = 0;
 
-	private Hotel() {
+    private Hotel() {
+    }
+
+    public static Hotel getInstancia() {
+        return laInstancia;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+	public TreeMap<String, Cliente> getClientes() {
+		return clientes;
 	}
-
-	public static Hotel getInstancia() {
-		return laInstancia;
-	}
-
-	public Admin getAdmin() {
-		return admin;
-	}
-
 	/*
 	 * Este metodo busca un cliente x dni si no lo encuentra retorna null
 	 */
@@ -111,4 +110,7 @@ public class Hotel {
 		return aux;
 
 	}
+}
+	
+	
 }

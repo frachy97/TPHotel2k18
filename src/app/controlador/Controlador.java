@@ -42,4 +42,8 @@ public class Controlador {
 
         }
     }
+
+	public Hotel getHotel() {
+		return hotel;
+	}
 }
