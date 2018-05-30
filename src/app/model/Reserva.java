@@ -20,7 +20,9 @@ public class Reserva implements Serializable {
     private LocalDate fechaIngreso;
     private LocalDate fechaSalida;
     private boolean confirmada = false;
-    private List<Producto> consumos = new ArrayList<>();
+    
+
+	private List<Producto> consumos = new ArrayList<>();
 
     public Reserva(Cliente cliente, Habitacion habitacion,
                    LocalDate fechaIngreso, LocalDate fechaSalida) {
@@ -33,6 +35,9 @@ public class Reserva implements Serializable {
         this.fechaSalida = fechaSalida;
     }
 
+    public void setConfirmada(boolean confirmada) {
+    	this.confirmada = confirmada;
+    }
 	public List<Producto> getConsumos() {
 		return consumos;
 	}

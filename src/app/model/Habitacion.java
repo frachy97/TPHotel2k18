@@ -9,7 +9,11 @@ public class Habitacion implements Serializable {
 
     private String numero;
     private EstadoHab estado;
-    private TipoHab tipo;
+    public TipoHab getTipo() {
+		return tipo;
+	}
+
+	private TipoHab tipo;
     private double precioPorDia;
 
     public Habitacion(String numero, TipoHab tipo, double precioPorDia) {
