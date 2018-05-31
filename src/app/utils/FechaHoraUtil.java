@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 public class FechaHoraUtil {
 
     private static final DateTimeFormatter formatoFechaHora = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    private static final DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static final DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
     public static final int horaCheckIn = 15;
     public static final int horaCheckOut = 11;

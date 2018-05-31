@@ -9,6 +9,7 @@ import app.model.Password;
 import app.utils.IOGenericoUtil;
 
 
+import java.io.File;
 import java.util.Scanner;
 
 public class Controlador {

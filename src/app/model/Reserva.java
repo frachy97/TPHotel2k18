@@ -59,4 +59,19 @@ public class Reserva implements Serializable {
         horarioCreacion = LocalDateTime.now();
         habitacion.setEstado(EstadoHab.OCUPADA);
     }
+
+    public LocalDate getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public LocalDate getFechaSalida() {
+        return fechaSalida;
+    }
+
+    @Override
+    public String toString() {
+        return "ID reserva: " + nroReserva + "\nHabitacion: " + habitacion.getNumero()+ "\nCliente: " +
+                cliente.getNombreCompleto() + ", DNI " + cliente.getDni() + "\nIngreso: " + fechaIngreso +
+                "\nSalida: " + fechaSalida + "\n";
+    }
 }

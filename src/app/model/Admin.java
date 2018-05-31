@@ -21,19 +21,20 @@ public class Admin extends Usuario {
 
         //variables para condicionar
         boolean requisitosContrasenia;
-        String userConfirm = "";
+        int opcion = 2; //inicializo en 2 para que entre al una vez al while. Luego lo setteo a 0 en el mismo.
+        boolean reingresarDatos;
         //variables para conserje
         String id = null;
         String psw = null;
         String nombre = null;
+        Password password;
 
-        while ( !userConfirm.equals("si") ) {
+        while (opcion == 2) {
 
             System.out.println("Ingresar id: ");
             id = scanner.nextLine();
 
-            /*Asigno false para que entre al "while" más de una vez en caso de que el usuario haya ingresado mal
-            su posible contraseña*/
+            //si el usuario ingresa la opcion "2" , setteo a "false" para que reingrese otra contrasenia
             requisitosContrasenia = false;
             while (!requisitosContrasenia) {
                 System.out.println("Ingrese contraseña alfanumerica(8-20 digitos): ");
@@ -49,20 +50,28 @@ public class Admin extends Usuario {
             System.out.println("Ingresar nombre: ");
             nombre = scanner.nextLine();
 
-            System.out.println("Usted ha ingresado los siguientes datos: " +
-                    "\nid: " + id +
-                    "\npsw: " + psw +
-                    "\nnombre: " + nombre +
-                    "\nConfirmar: si" +
-                    "\nVolver a ingresar los datos: Presionar cualquier tecla.");
-            userConfirm = scanner.nextLine();
+            //si el usuario útiliza la opcion "2" del siguiente While
+            //setteo los valores para el uso del mismo.
+            opcion = 0;
+            reingresarDatos = true;
+            while (opcion != 2 && opcion != 1 && reingresarDatos == true) {
+                System.out.println("Usted ha ingresado los siguientes datos: " +
+                        "\nid: " + id +
+                        "\npsw: " + psw +
+                        "\nnombre: " + nombre +
+                        "\n1: confirmar" +
+                        "\n2: volver a ingresar los datos");
+                opcion = scanner.nextInt();
+                scanner.nextLine();
+                reingresarDatos = false;
+            }
         }
         return new Conserje(id, new Password(psw), nombre);
     }
 
 
     public void habilitarODeshabilitarConserje(Conserje conserje) {
-        conserje.cambiarEstadoHabilitado();
+        conserje.habilitar();
     }
 
     public Habitacion agregarHabitacion(Scanner scanner) {
@@ -90,7 +99,7 @@ public class Admin extends Usuario {
             case 2:
                 tipoHabitacion = TipoHab.MATRIMONIAL;
             case 3:
-                tipoHabitacion = TipoHab.MATRIMONIALeINDIVIDUAL;
+                tipoHabitacion = TipoHab.FAMILIAR;
         }
 
 
@@ -115,11 +124,8 @@ public class Admin extends Usuario {
         return precioHabitacion;
     }
 
-    public void modificarTipoHabitacion(Habitacion habitacion, TipoHab esteTipo) {
-        habitacion.setTipoHab(esteTipo);
-
-        /* o es mejor mostrarle un menú de opciones?
-         */
-    }
-
+    /* o es mejor mostrarle un menú de opciones?
+     */
 }
+
+

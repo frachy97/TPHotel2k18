@@ -32,7 +32,8 @@ public enum TipoHab {
 		    }
 		 return aux;
 	}
-	
+
+
 
 	public String getID()
 	{
