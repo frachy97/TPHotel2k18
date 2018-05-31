@@ -1,0 +1,13 @@
+setters Cliente
+Alta Cliente- Conserjex
+ModificarCliente-Conserje
+menuModificarCliente(static)-Menu
+AltaReserva-Conserje
+Producto ENUM
+TipoHab ENUM
+EstadoHab ENUM
+ListadoProductos(static)-Menu
+ListadoTipoHab(static)-Menu
+ListadoEstadoHab(static)-Menu
+getConsumos- Reserva
+AgregarConsumo- Conserje

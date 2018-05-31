@@ -1,5 +1,6 @@
 package app.controlador;
 
+
 import app.menus.Menu;
 import app.model.Admin;
 import app.model.Conserje;
@@ -7,7 +8,7 @@ import app.model.Hotel;
 import app.model.Password;
 import app.utils.IOGenericoUtil;
 
-import java.io.File;
+
 import java.util.Scanner;
 
 public class Controlador {
@@ -23,15 +24,14 @@ public class Controlador {
     /*25/05/18 Cambio en almacenamiento de usuario admin estandar.*/
     public void inicio() {
 
-        File archivoConserje = new File("conserjes.dat");
         Conserje c1 = new Conserje("conserjito", new Password("conserjito"), "Miguel");
         Conserje c2 = new Conserje("conserjete", new Password("conserjete"), "Pedrin");
 
         hotel.getConserjes().put(c1.getId(), c1);
         hotel.getConserjes().put(c2.getId(), c2);
 
-        File archivoAdmin = new File("admin.dat");/*
-        Admin pruebaAdmin = new Admin("myadmin", new Password("mypassword"), "pepe");
+        File archivoAdmin = new File("admin.dat");
+        /*Admin pruebaAdmin = new Admin("myadmin", new Password("mypassword"), "pepe");
         IOGenericoUtil.escribirObjeto(pruebaAdmin, archivoAdmin);*/
 
         boolean loginExitoso = false;
@@ -44,7 +44,7 @@ public class Controlador {
 
         String opcion;
 
-        while (loginExitoso == false) {
+        while (!loginExitoso) {
 
             System.out.print("Ingrese ID: ");
             String idLogin = input.nextLine();
@@ -172,17 +172,16 @@ public class Controlador {
                     }
                 } while (!opcion.equals("0"));
 
-
             } else if (hotel.getConserjes().containsKey(idLogin) &&
                     idPassword.equals(hotel.getConserjes().get(idLogin).getPassword().getClave())) {
                 Conserje conserje = hotel.getConserjes().get(idLogin);
                 System.out.println("Ha iniciado sesion como Conserje. Bienvenido " + conserje.getNombre());
                 loginExitoso = true;
-                
 
             } else {
                 System.out.println("El ID de usuario no existe o la contraseña es incorrecta.");
             }
+
         } // while (login == false)
     } // inicio()
 }

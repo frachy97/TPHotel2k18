@@ -2,16 +2,41 @@ package app.enums;
 
 public enum TipoHab {
 
-    INDIVIDUAL("Individual");
+    INDIVIDUAL(), MATRIMONIAL(), FAMILIAR();
+    
+    static int contador;
+    
+    String id;
 
-    String tipo;
-
-    TipoHab(String tipo) {
-        this.tipo = tipo;
+    TipoHab() {
+    	this.id = aumentarcontador();
     }
 
-    @Override
-    public String toString() {
-        return tipo;
-    }
+	public String aumentarcontador()
+	{
+		return String.valueOf(++contador);
+		 
+	}
+	/*
+	 * busca un producto por su identificador y lo devuelve
+	 */
+	public static TipoHab buscarPorID(String identificador)
+	{
+		TipoHab aux = null;
+		 for(TipoHab tipo : TipoHab.values())
+		    {
+		        if(tipo.getID().equals(identificador))
+		        {
+		        	aux= tipo;
+		        }
+		    }
+		 return aux;
+	}
+	
+
+	public String getID()
+	{
+		return id;
+	}
+	
 }
