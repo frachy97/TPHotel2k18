@@ -1,8 +1,15 @@
 package app.archivos;
 
+import java.io.File;
+
 public class Archivos {
 
-    /* TODO: 22/05/2018 Crear las variables estaticas. Una que sera contenedora de los archivos (directorio)
-    otras que apuntaran a los archivos concretos.*/
+    /*30/05/2018 Variables estaticas creadas.*/
 
+    public static final File DIR = new File("dir/");
+    public static final File ADMIN = new File(DIR, "admin.dat");
+    public static final File CONSERJES = new File(DIR, "conserjes.dat");
+    public static final File RESERVAS = new File(DIR, "reservas.dat");
+    public static final File HABITACIONES = new File(DIR, "habitaciones.dat");
+    public static final File INGRESOS = new File(DIR, "ingresos.dat");
 }

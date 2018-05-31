@@ -14,6 +14,8 @@ public class Programa {
 
         Hotel hotel = Hotel.getInstancia();
         Controlador controlador = new Controlador(hotel);
-        controlador.inicio();
+//        controlador.inicio();
+
+
     }
 }
