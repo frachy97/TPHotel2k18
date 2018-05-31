@@ -1,7 +1,11 @@
 package app.model;
 
+
 import java.util.Map;
 import java.util.Scanner;
+
+import java.io.Serializable;
+
 import java.util.TreeMap;
 
 import app.enums.EstadoHab;
@@ -15,7 +19,7 @@ public class Hotel {
     private TreeMap<String, Conserje> conserjes = new TreeMap<>();
     private TreeMap<String, Cliente> clientes = new TreeMap<>();
     private TreeMap<String, Reserva> reservas = new TreeMap<>();
-    private Admin admin = new Admin("admin", new Password("password"), "nombre");
+    private Admin admin;
     private double totalIngresos = 0;
 
     private Hotel() {
@@ -28,7 +32,8 @@ public class Hotel {
     public Admin getAdmin() {
         return admin;
     }
-
+  
+  
 	public TreeMap<String, Cliente> getClientes() {
 		return clientes;
 	}
@@ -68,7 +73,7 @@ public class Hotel {
 	public void listadoHabitaciones(Scanner scan)
 	{
 		System.out.println("Ingrese el tipo de Habitacion que desea: \n");
-		Menu.ListadoTipoHab();
+		Menu.listadoTipoHab();
 		String opcion = scan.nextLine();
 
 		for (Map.Entry<String, Habitacion> entry : habitaciones.entrySet()) {
@@ -111,6 +116,42 @@ public class Hotel {
 
 	}
 }
-	
-	
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
+    public TreeMap<String, Habitacion> getHabitaciones() {
+        return habitaciones;
+    }
+
+    public TreeMap<String, Conserje> getConserjes() {
+        return conserjes;
+    }
+
+    public TreeMap<String, Cliente> getClientes() {
+        return clientes;
+    }
+
+    public TreeMap<String, Reserva> getReservas() {
+        return reservas;
+    }
+
+    /*30/05/2018 metodos para agregar elementos a los mapas
+    * PREGUNTA: Deberiamos usar tipo generico?*/
+    public void agregarConserje(Conserje c) {
+        conserjes.put(c.getId(), c);
+    }
+
+    public void agregarHabitacion(Habitacion h) {
+        habitaciones.put(h.getNumero(), h);
+    }
+
+    public void agregarCliente(Cliente c) {
+        clientes.put(c.getDni(), c);
+    }
+
+    public void agregarReserva(Reserva r) {
+        reservas.put(r.getNroReserva(), r);
+    }
 }

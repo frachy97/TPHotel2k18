@@ -28,7 +28,8 @@ public class IOGenericoUtil {
             t = (T) in.readObject();
 
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            System.err.print("Advertencia: ");
+            System.out.println("no existe objeto correspondiente.");
         }
 
         return t;

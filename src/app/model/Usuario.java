@@ -22,6 +22,10 @@ public abstract class Usuario implements Serializable {
         return password;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
     @Override
     public String toString() {
         return "\nUsuario: " + id + "\nNombre: " + nombre;
