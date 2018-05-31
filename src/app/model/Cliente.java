@@ -20,7 +20,27 @@ public class Cliente {
         this.direccion = direccion;
     }
 
-    public String getDni() {
+    public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+
+	public void setNacionalidad(String nacionalidad) {
+		this.nacionalidad = nacionalidad;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public String getDni() {
         return dni;
     }
 

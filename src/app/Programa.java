@@ -1,12 +1,10 @@
 package app;
 
 import app.controlador.Controlador;
-import app.model.Admin;
 import app.model.Hotel;
-import app.model.Password;
-import app.utils.IOGenericoUtil;
 
-import java.io.File;
+import java.io.Console;
+import java.util.Arrays;
 
 public class Programa {
 
@@ -14,8 +12,8 @@ public class Programa {
 
         Hotel hotel = Hotel.getInstancia();
         Controlador controlador = new Controlador(hotel);
-//        controlador.inicio();
-
-
+        controlador.inicio();
     }
+
+
 }
