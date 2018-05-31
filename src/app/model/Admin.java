@@ -18,71 +18,79 @@ public class Admin extends Usuario {
      * @param  scanner
      * @return retorna un nuevo Conserje
      */
-    public  Conserje darDeAlta(Scanner scanner) {
+    public Conserje darDeAltaConserje(Scanner scanner) {
 
-        boolean flag = false;
+        //variables para condicionar
+        boolean requisitosContrasenia;
+        String userConfirm = "";
+        //variables para conserje
+        String id = null;
         String psw = null;
-        Conserje nConserje;
-        Password password;
+        String nombre = null;
 
-        System.out.println("Ingresar id: ");
-        String id = scanner.nextLine();
+        while (!userConfirm.equals("si")) {
 
-        while(!flag)
-        {
-            System.out.println("Ingrese contraseña alfanumerica(8-20 digitos): ");
-            psw = scanner.nextLine();
+            System.out.println("Ingresar id: ");
+            id = scanner.nextLine();
 
-            if( Password.hasLongitudCorrecta(psw) && Password.isAlfanumerico(psw) )
-            {
-                flag = true;
-            }else
-            {
-                System.out.println("La contraseña ingresada no cumple todos los requisitos: ");
+            /*Asigno false para que entre al "while" más de una vez en caso de que el usuario haya ingresado mal
+            su posible contraseña*/
+            requisitosContrasenia = false;
+            while (!requisitosContrasenia) {
+                System.out.println("Ingrese contraseña alfanumerica(8-20 digitos): ");
+                psw = scanner.nextLine();
+
+                if (Password.hasLongitudCorrecta(psw) && Password.isAlfanumerico(psw)) {
+                    requisitosContrasenia = true;
+                } else {
+                    System.out.println("La contraseña ingresada no cumple todos los requisitos: ");
+                }
             }
 
+            System.out.println("Ingresar nombre: ");
+            nombre = scanner.nextLine();
+
+            System.out.println("Usted ha ingresado los siguientes datos: " +
+                    "\nid: " + id +
+                    "\npsw: " + psw +
+                    "\nnombre: " + nombre +
+                    "\nConfirmar: si" +
+                    "\nVolver a ingresar los datos: Presionar cualquier tecla.");
+            userConfirm = scanner.nextLine();
         }
-
-
-        password = new Password( psw );
-
-        System.out.println("Ingresar nombre: ");
-        String nombre = scanner.nextLine();
-
-        nConserje = new Conserje(id,password,nombre);
-
-
-        return nConserje;
+        return new Conserje(id, new Password(psw), nombre);
     }
 
     public void habilitarODeshabilitarConserje(Conserje conserje){
-        conserje.cambiarEstadoHabilitado();
+		conserje.cambiarEstadoHabilitado();
     }
 
-    public Habitacion agregarHabitacion(Scanner scanner){
+     public Habitacion agregarHabitacion(Scanner scanner) throws Exception {
         boolean flag = false;
-        int opcion=0;
+        String opcion = "";
         TipoHab tipoHabitacion = null;
 
         System.out.println("Ingresar numero de habitacion: ");
         String numeroHabitacion = scanner.nextLine();
 
         /*Mientras el usuario NO ingrese una opcion valida, va a seguir en el bucle.*/
-        while(!flag)
-        {
-            System.out.println("Que clase de habitacion desea agregar?: \n1: Individual \n2: Matrimonial \n3: Matrimonial + Individual ");
-            opcion = scanner.nextInt();
+        try {
+            while (!flag) {
+                System.out.println("Que clase de habitacion desea agregar?: \n1: Individual \n2: Matrimonial \n3: Matrimonial + Individual ");
+                opcion = scanner.nextLine();
 
-            if(opcion >= 1 && opcion <= 3)
-            {
-                flag = true;
+                if (Integer.parseInt(opcion) >= 1 && Integer.parseInt(opcion) <= 3) {
+                    flag = true;
+                } else {
+                    throw new Exception("No se ha ingresado una opcion valida.");
+                }
             }
+        } catch (Exception e) {
+            e.getMessage();
         }
 
 
-
-        switch (opcion)
-        {
+        switch (opcion) {
             case 1:
                 tipoHabitacion = TipoHab.INDIVIDUAL;
             case 2:
@@ -98,7 +106,7 @@ public class Admin extends Usuario {
         //limpio el \n que quedó del nextdouble
         scanner.nextLine();
 
-        return (new Habitacion(numeroHabitacion,tipoHabitacion,precioxdia));
+        return (new Habitacion(numeroHabitacion, tipoHabitacion, precioxdia));
     }
 
     public String eliminarHabitacion(String idHabitacion){
