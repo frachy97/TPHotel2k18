@@ -48,4 +48,22 @@ public class Hotel {
     public TreeMap<String, Reserva> getReservas() {
         return reservas;
     }
+
+    /*30/05/2018 metodos para agregar elementos a los mapas
+    * PREGUNTA: Deberiamos usar tipo generico?*/
+    public void agregarConserje(Conserje c) {
+        conserjes.put(c.getId(), c);
+    }
+
+    public void agregarHabitacion(Habitacion h) {
+        habitaciones.put(h.getNumero(), h);
+    }
+
+    public void agregarCliente(Cliente c) {
+        clientes.put(c.getDni(), c);
+    }
+
+    public void agregarReserva(Reserva r) {
+        reservas.put(r.getNroReserva(), r);
+    }
 }
