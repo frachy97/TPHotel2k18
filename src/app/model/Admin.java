@@ -21,20 +21,19 @@ public class Admin extends Usuario {
 
         //variables para condicionar
         boolean requisitosContrasenia;
-        int opcion = 2; //inicializo en 2 para que entre al una vez al while. Luego lo setteo a 0 en el mismo.
-        boolean reingresarDatos;
+        String userConfirm = "";
         //variables para conserje
         String id = null;
         String psw = null;
         String nombre = null;
-        Password password;
 
-        while (opcion == 2) {
+        while ( !userConfirm.equals("si") ) {
 
             System.out.println("Ingresar id: ");
             id = scanner.nextLine();
 
-            //si el usuario ingresa la opcion "2" , setteo a "false" para que reingrese otra contrasenia
+            /*Asigno false para que entre al "while" más de una vez en caso de que el usuario haya ingresado mal
+            su posible contraseña*/
             requisitosContrasenia = false;
             while (!requisitosContrasenia) {
                 System.out.println("Ingrese contraseña alfanumerica(8-20 digitos): ");
@@ -50,21 +49,13 @@ public class Admin extends Usuario {
             System.out.println("Ingresar nombre: ");
             nombre = scanner.nextLine();
 
-            //si el usuario útiliza la opcion "2" del siguiente While
-            //setteo los valores para el uso del mismo.
-            opcion = 0;
-            reingresarDatos = true;
-            while (opcion != 2 && opcion != 1 && reingresarDatos == true) {
-                System.out.println("Usted ha ingresado los siguientes datos: " +
-                        "\nid: " + id +
-                        "\npsw: " + psw +
-                        "\nnombre: " + nombre +
-                        "\n1: confirmar" +
-                        "\n2: volver a ingresar los datos");
-                opcion = scanner.nextInt();
-                scanner.nextLine();
-                reingresarDatos = false;
-            }
+            System.out.println("Usted ha ingresado los siguientes datos: " +
+                    "\nid: " + id +
+                    "\npsw: " + psw +
+                    "\nnombre: " + nombre +
+                    "\nConfirmar: si" +
+                    "\nVolver a ingresar los datos: Presionar cualquier tecla.");
+            userConfirm = scanner.nextLine();
         }
         return new Conserje(id, new Password(psw), nombre);
     }
