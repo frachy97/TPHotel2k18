@@ -30,7 +30,7 @@ public class Conserje extends Usuario {
     * esto es por si los datos ingresados son no queridos
     */
     
-    public Cliente AltaCliente(Scanner scan)
+    public Cliente altaCliente(Scanner scan)
     {
     	System.out.println("CREACION DE CLIENTE\n");	
     	System.out.println("Ingrese nombre:\n");
@@ -47,30 +47,24 @@ public class Conserje extends Usuario {
     	System.out.println("1-Confirmar /n");
     	System.out.println("2-Volver a ingresar los datos /n");
     	String confirmar=scan.nextLine();
-    	if(confirmar=="1")
+    	if(confirmar.equals("1"))
     	{	
     		Cliente aux=new Cliente(nom,ape,dni,nac,dir);
     		System.out.println("Se ha creado el siguiente Cliente "+ aux);
     		return aux;
     	}else{
-    		Cliente aux=AltaCliente(scan);//recursividad, se vuelve a crear el cliente
+    		Cliente aux=altaCliente(scan);//recursividad, se vuelve a crear el cliente
     		return aux;
     	}
-    	
-    	
-    	
     }
-    
-
-   
     
     /*
      * REALMENTE NO SIRVE PORQUE SE VA A MODIFICAR SEGUN SE HAGA LA RESERVA
      * VALE LA PENA DEJARLO?
      */
-    public void ModificarEstadoHab(Scanner scan, Habitacion hab)
+    public void modificarEstadoHab(Scanner scan, Habitacion hab)
     {
-    	Menu.ListadoEstadoHab();
+    	Menu.listadoEstadoHab();
     	System.out.println("Ingrese opcion a elegir:\n");
     	String opcion=scan.nextLine();
     	hab.setEstado(EstadoHab.buscarPorID(opcion));
@@ -79,7 +73,7 @@ public class Conserje extends Usuario {
     
    
 
-    public Reserva AltaReserva(Scanner scan, Hotel telo) {
+    public Reserva altaReserva(Scanner scan, Hotel telo) {
 		boolean valid = false;
 		boolean valid2 = false;
 
@@ -112,10 +106,10 @@ public class Conserje extends Usuario {
 		}
 		
 		
-		Cliente Caux = telo.buscarCliente(scan);
-		Habitacion Haux = telo.buscarHabitacion(scan);
+		Cliente cAux = telo.buscarCliente(scan);
+		Habitacion hAux = telo.buscarHabitacion(scan);
 
-		Reserva reserva = new Reserva(Caux, Haux, ingreso, salida);
+		Reserva reserva = new Reserva(cAux, hAux, ingreso, salida);
 		System.out.println("Usted esta a punto de crear la siguiente reserva: " + reserva + "\n");
 		System.out.println("Desea continuar confirmala? s/n \n");
 		String aux = scan.nextLine();
@@ -130,9 +124,9 @@ public class Conserje extends Usuario {
     /*
      * Muestra el listado de Productos y da a seleccionar cual se agrega a la cuenta.
      */
-    public void AgregarConsumo(Scanner scan, Reserva aux)
+    public void agregarConsumo(Scanner scan, Reserva aux)
     {
-    	Menu.ListadoProductos();
+    	Menu.listadoProductos();
     	System.out.println("Selecciona el numero de producto:\n");
     	String numero=scan.nextLine();
     	aux.getConsumos().add(Producto.buscarPorID(numero));
@@ -146,9 +140,9 @@ public class Conserje extends Usuario {
      * 
      * Deberia ser capaz de buscar al cliente en vez de pasarselo x parametro
      */
-    public void ModificarCliente(Scanner scan, Cliente aux)
+    public void modificarCliente(Scanner scan, Cliente aux)
     {
-    	String opcion=Menu.MenuModificarCliente(scan);
+    	String opcion=Menu.menuModificarCliente(scan);
     	switch(opcion)
     	{
     		case "1":
