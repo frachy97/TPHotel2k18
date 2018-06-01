@@ -1,14 +1,15 @@
 package app.model;
 
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
-
+import java.awt.List;
 import java.io.Serializable;
-
 import java.util.TreeMap;
 
 import app.enums.EstadoHab;
+import app.enums.TipoHab;
 import app.menus.Menu;
 
 public class Hotel {
@@ -34,10 +35,11 @@ public class Hotel {
      * Este metodo busca un cliente x dni si no lo encuentra retorna null
      */
     public Cliente buscarCliente(Scanner scan) {
-        System.out.println("Ingrese dni del Cliente a buscar: \n");
+        System.out.println("Ingrese dni del Cliente a buscar: ");
         String dni = scan.nextLine();
 
         Cliente aux = null;
+        
         boolean flag = false;
         for (Map.Entry<String, Cliente> entry : clientes.entrySet()) {
             if (!flag) {
@@ -51,11 +53,17 @@ public class Hotel {
         }
 
         if (aux == null) {
-            System.out.println("No se encontro ningun cliente con el dni " + dni + " en la base de datos.\n");
-        } else {
+            System.out.println("No se encontro ningun cliente con el dni " + dni + " en la base de datos.");
+            System.out.println("Volver a intentar? s/n");
+            String opcion=scan.nextLine();
+            if(opcion.equals("s"))
+            {
+            	aux=buscarCliente(scan);
+            } 
+        }else {
             System.out.println("Se ha encontrado el siguiente Cliente: " + aux);
-        }
-
+            }
+        
         return aux;
     }
 
@@ -64,19 +72,34 @@ public class Hotel {
      * Pide que se le especifique el tipo de habitacion, Lista la q esten libres
      */
     public void listadoHabitaciones(Scanner scan) {
-        System.out.println("Ingrese el tipo de Habitacion que desea: \n");
+        System.out.println("Ingrese el tipo de Habitacion que desea: ");
         Menu.listadoTipoHab();
         String opcion = scan.nextLine();
+        boolean haydato=false;
+        
 
         for (Map.Entry<String, Habitacion> entry : habitaciones.entrySet()) {
-            System.out.println("Listado de Habitaciones Libres del tipo " + opcion + "\n");
             Habitacion value = entry.getValue();
             String key = entry.getKey();
             /* Compruebo q la habitacion este libre y que sea del tipo seleccionado*/
 
             if (value.getEstado().equals(EstadoHab.LIBRE) && value.getTipo().getID().equals(opcion)) {
-                System.out.println(key + "\n");
+            /*Una vez que entra significa que hay al menos una habitacion
+             * */
+            	if(haydato==false)
+            	{
+            		System.out.println("Listado de Habitaciones Libres del tipo " + TipoHab.buscarPorID(opcion) + "\n");
+            		haydato=true;
+            	}
+                System.out.println(key);
+                
             }
+        }
+        
+        if(haydato==false)
+        {
+        	System.out.println("No se ha encontrado ninguna habitacion disponible del tipo "+TipoHab.buscarPorID(opcion));
+        	listadoHabitaciones(scan);
         }
 
     }
@@ -103,6 +126,7 @@ public class Hotel {
 
         if (aux == null) {
             System.out.println("Los datos ingresados son incorrectos \n");
+            aux=buscarHabitacion(scan);
         }
         return aux;
 

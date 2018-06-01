@@ -75,13 +75,35 @@ public class Conserje extends Usuario {
         LocalDate ingreso = null;
         LocalDate salida = null;
 
-        Cliente cAux;
-
-        if ((cAux = hotel.buscarCliente(input)) == null) {
-            cAux = altaCliente(input);
+        Cliente cAux=null;
+        boolean repetir=true;
+        
+        System.out.println("CREACION DE LA RESERVA\n");
+        while(repetir==true)
+        {
+        	System.out.println("1-Crear Cliente");
+        	System.out.println("2-Buscar Cliente");
+        	String opcion=input.nextLine();
+        
+        	switch(opcion)
+        	{
+        	case"1":
+        		cAux = altaCliente(input);
+        		repetir=false;
+        		break;
+        	case"2":
+        		cAux = hotel.buscarCliente(input);
+        		if(cAux==null)
+        		{
+        			cAux = altaCliente(input);
+        		}
+        		repetir=false;
+        		break;
+        	default:
+        		System.out.println("Opcion incorrecta");
+        	}
         }
 
-        System.out.println("CREACION DE LA RESERVA\n");
 
         Habitacion hAux = hotel.buscarHabitacion(input);
 
