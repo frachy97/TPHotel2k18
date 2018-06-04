@@ -21,19 +21,20 @@ public class Admin extends Usuario {
 
         //variables para condicionar
         boolean requisitosContrasenia;
-        String userConfirm = "";
+        int opcion = 2; //inicializo en 2 para que entre al una vez al while. Luego lo setteo a 0 en el mismo.
+        boolean reingresarDatos;
         //variables para conserje
         String id = null;
         String psw = null;
         String nombre = null;
+        Password password;
 
-        while (!userConfirm.equals("si")) {
+        while (opcion == 2) {
 
             System.out.println("Ingresar id: ");
             id = scanner.nextLine();
 
-            /*Asigno false para que entre al "while" más de una vez en caso de que el usuario haya ingresado mal
-            su posible contraseña*/
+            //si el usuario ingresa la opcion "2" , setteo a "false" para que reingrese otra contrasenia
             requisitosContrasenia = false;
             while (!requisitosContrasenia) {
                 System.out.println("Ingrese contraseña alfanumerica(8-20 digitos): ");
@@ -49,61 +50,56 @@ public class Admin extends Usuario {
             System.out.println("Ingresar nombre: ");
             nombre = scanner.nextLine();
 
-            System.out.println("Usted ha ingresado los siguientes datos: " +
-                    "\nid: " + id +
-                    "\npsw: " + psw +
-                    "\nnombre: " + nombre +
-                    "\nConfirmar: si" +
-                    "\nVolver a ingresar los datos: Presionar cualquier tecla.");
-            userConfirm = scanner.nextLine();
+            //si el usuario útiliza la opcion "2" del siguiente While
+            //setteo los valores para el uso del mismo.
+            opcion = 0;
+            reingresarDatos = true;
+            while (opcion != 2 && opcion != 1 && reingresarDatos == true) {
+                System.out.println("Usted ha ingresado los siguientes datos: " +
+                        "\nid: " + id +
+                        "\npsw: " + psw +
+                        "\nnombre: " + nombre +
+                        "\n1: confirmar" +
+                        "\n2: volver a ingresar los datos");
+                opcion = scanner.nextInt();
+                scanner.nextLine();
+                reingresarDatos = false;
+            }
         }
         return new Conserje(id, new Password(psw), nombre);
     }
 
 
     public void habilitarODeshabilitarConserje(Conserje conserje) {
-        conserje.cambiarEstadoHabilitado();
+        conserje.habilitar();
     }
 
     public Habitacion agregarHabitacion(Scanner scanner) {
         boolean flag = false;
-        String opcion = "";
+        int opcion = 0;
         TipoHab tipoHabitacion = null;
 
         System.out.println("Ingresar numero de habitacion: ");
         String numeroHabitacion = scanner.nextLine();
 
         /*Mientras el usuario NO ingrese una opcion valida, va a seguir en el bucle.*/
-        try {
-            while (!flag) {
-                System.out.println("Que clase de habitacion desea agregar?: \n1: Individual \n2: Matrimonial \n3: Familiar");
-                opcion = scanner.nextLine();
+        while (!flag) {
+            System.out.println("Que clase de habitacion desea agregar?: \n1: Individual \n2: Matrimonial \n3: Matrimonial + Individual ");
+            opcion = scanner.nextInt();
 
-                //Válido si el usuario ingresó una opción correcta.
-                if (Integer.parseInt(opcion) >= 1 && Integer.parseInt(opcion) <= 3) {
-                    //si ingresó la opción correcta, finalizo el bucle
-                    flag = true;
-                } else {
-                    //si el usuario no ingresó una opción correcta vuelve a repetirse el proceso.
-                    throw new Exception("No se ha ingresado una opcion valida.");
-                }
+            if (opcion >= 1 && opcion <= 3) {
+                flag = true;
             }
-        }catch (NumberFormatException e){
-            System.out.println("No se ha ingresado un numero.");
-        }catch (Exception e) {
-            System.out.println( e.getMessage() );
         }
-        //Cuando confirmo que no ingresó una opcion valida. asigno el valor escogido por el usuario.
+
+
         switch (opcion) {
-            case "1":
+            case 1:
                 tipoHabitacion = TipoHab.INDIVIDUAL;
-                break;
-            case "2":
+            case 2:
                 tipoHabitacion = TipoHab.MATRIMONIAL;
-                break;
-            case "3":
+            case 3:
                 tipoHabitacion = TipoHab.FAMILIAR;
-                break;
         }
 
 
@@ -120,76 +116,20 @@ public class Admin extends Usuario {
         //retornar el idHabitacion, y eliminar la Habitacion en Hotel?
         return idHabitacion;
     }
-    //modif
-    public void modificarPrecioHabitacion(Scanner scanner, Habitacion habitacion) {
-        boolean flag = false;
-        String valorIngresado = "";
-        while (!flag) {
 
-            try {
-                System.out.println("Ingrese el nuevo valor de la habitacion: ");
-                valorIngresado = scanner.nextLine();
+    public double modificarPrecioHabitacion(double precioHabitacion) {
 
-                if (Double.parseDouble(valorIngresado) >= 1) {
-                    flag = true;
-                } else if (Double.parseDouble(valorIngresado) == 0) {
-                    throw new Exception("El coste de la habitacion no puede ser 0.");
-                } else {
-                    throw new Exception("El sistema no acepta valores negativos.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("El dato ingresado no es un numero.");
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
+        //o pasamos una habitacion por parametro, y la setteamos¿?
 
-        habitacion.setPrecioPorDia(Double.parseDouble(valorIngresado));
-
-    }
-    //modif
-    public void modificarTipoHabitacion(Scanner scanner, Habitacion habitacion) {
-        //variable para condiciones
-        boolean flag = false;
-        String opcion = "";
-
-        /*Mientras el usuario NO ingrese una opcion valida, va a seguir en el bucle.*/
-        while (!flag) {
-            try {
-
-                System.out.println("A qué tipo de habitacion desea modificarla?: \n1: Individual \n2: Matrimonial \n3: Familiar");
-                opcion = scanner.nextLine();
-
-                //Válido si el usuario ingresó una opción correcta.
-                if (Integer.parseInt(opcion) >= 1 && Integer.parseInt(opcion) <= 3) {
-                    //si ingresó la opción correcta, finalizo el bucle While
-                    flag = true;
-                } else {
-                    //si el usuario no ingresó una opción correcta vuelve a repetirse el proceso.
-                    throw new Exception("No se ha ingresado una opcion valida.");
-                }
-            } catch (Exception e) {
-                e.getMessage();
-            }
-        }
-        //Cuando confirmo que no ingresó una opcion valida. asigno el valor escogido por el usuario.
-
-        switch (opcion) {
-            case "1":
-                habitacion.setTipo(TipoHab.INDIVIDUAL);
-                break;
-            case "2":
-                habitacion.setTipo(TipoHab.MATRIMONIAL);
-                break;
-            case "3":
-                habitacion.setTipo(TipoHab.FAMILIAR);
-                break;
-        }
-
-        /* o es mejor mostrarle un menú de opciones?
-         */
+        return precioHabitacion;
     }
 
+    /* o es mejor mostrarle un menú de opciones?
+     */
+
+    public static Admin proveerDefaultAdmin() {
+        return new Admin("admin", new Password("password"), "nombre");
+    }
 }
 
 

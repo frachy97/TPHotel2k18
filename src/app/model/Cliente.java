@@ -1,9 +1,10 @@
 package app.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cliente {
+public class Cliente implements Serializable {
 
     private String nombre;
     private String apellido;
@@ -58,5 +59,9 @@ public class Cliente {
     public String toString() {
         return "\nDNI: " + dni + "\nNombre: " + apellido + ", " + nombre + "\nDireccion: " +
                 direccion + "\nNacionalidad: " + nacionalidad.toString() + "\n";
+    }
+
+    public List<String> getHistorial() {
+        return historial;
     }
 }
