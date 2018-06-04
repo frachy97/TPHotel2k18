@@ -16,7 +16,7 @@ public class Reserva implements Serializable {
     private Cliente cliente;
     private Habitacion habitacion;
 
-	private LocalDateTime horarioCreacion = LocalDateTime.now();
+    private LocalDateTime horarioCreacion = LocalDateTime.now();
     /*30/05/2018 Nuevo metodo que registra cuando la reserva fue confirmada con la ocupacion del cliente*/
     private LocalDateTime horarioOcupacion;
 
@@ -39,11 +39,11 @@ public class Reserva implements Serializable {
         return cliente;
     }
 
-	public List<Producto> getConsumos() {
-		return consumos;
-	}
-   
-    
+    public List<Producto> getConsumos() {
+        return consumos;
+    }
+
+
     public String getNroReserva() {
         return nroReserva;
     }
@@ -73,7 +73,7 @@ public class Reserva implements Serializable {
 
     @Override
     public String toString() {
-        return "ID reserva: " + nroReserva + "\nHabitacion: " + habitacion.getNumero()+ "\nCliente: " +
+        return "ID reserva: " + nroReserva + "\nHabitacion: " + habitacion.getNumero() + "\nCliente: " +
                 cliente.getNombreCompleto() + ", DNI " + cliente.getDni() + "\nIngreso: " + fechaIngreso +
                 "\nSalida: " + fechaSalida + "\n";
     }

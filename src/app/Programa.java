@@ -28,8 +28,6 @@ public class Programa {
         Reserva r2=new Reserva(unCliente2,habitacion1, LocalDate.of(2018,6,5), LocalDate.of(2018, 6, 6));
         hotel.agregarReserva(r2);
         conserjito.altaReserva(new Scanner(System.in), hotel);*/
-        
+
     }
-
-
 }

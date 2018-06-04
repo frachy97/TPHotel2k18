@@ -142,7 +142,7 @@ public class Hotel {
     public void listarHabitacionesLibres() {
         boolean existen = false;
         for (Habitacion h : habitaciones.values()) {
-            if (h.isEstado()) {
+            if (h.elEstado()) {
                 System.out.println(h);
                 existen = true;
             }
@@ -155,7 +155,7 @@ public class Hotel {
     public void listarHabitacionesOcupadas() {
         boolean existen = false;
         for (Habitacion h : habitaciones.values()) {
-            if (!h.isEstado()) {
+            if (!h.elEstado()) {
                 System.out.println(h);
                 existen = true;
             }
