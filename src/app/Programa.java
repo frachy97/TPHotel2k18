@@ -24,7 +24,6 @@ public class Programa {
         hotel.agregarHabitacion(habitacion2);
         hotel.agregarCliente(unCliente);
         conserjito.altaReserva(new Scanner(System.in), hotel);
-		//TEST
     }
 
 
