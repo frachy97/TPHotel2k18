@@ -14,7 +14,11 @@ import java.util.Scanner;
 
 public class Controlador {
 
-    private Scanner input = new Scanner(System.in);
+    public Scanner getInput() {
+		return input;
+	}
+
+	private Scanner input = new Scanner(System.in);
     private Hotel hotel;
 
     public Controlador(Hotel hotel) {
