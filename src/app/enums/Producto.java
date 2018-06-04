@@ -47,6 +47,5 @@ public enum Producto {
 	{
 		return id;
 	}
-	
-
+		
 }

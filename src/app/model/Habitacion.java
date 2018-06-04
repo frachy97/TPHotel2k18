@@ -29,7 +29,7 @@ public class Habitacion implements Serializable {
 
     
 
-    public boolean isEstado() {
+    public boolean elEstado() {
 		return estado;
 	}
 
