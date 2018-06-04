@@ -2,7 +2,7 @@ package app.menus;
 
 import java.util.Scanner;
 
-
+import app.enums.EstadoHab;
 import app.enums.Producto;
 import app.enums.TipoHab;
 
@@ -121,7 +121,14 @@ public class Menu {
 	        System.out.println(tipo.getID()+"- " + tipo );
 	    }
 	}
-	
+	public static void listadoEstadoHab() {
+		
+	    System.out.println("\nLISTADO ESTADO DE HABITACION\n");
+	    for(EstadoHab estado: EstadoHab.values())
+	    {
+	        System.out.println(estado.getID()+"- " + estado );
+	    }
+	}
 
     private static void seleccionOpcion() {
         System.out.print("Seleccione ... ");

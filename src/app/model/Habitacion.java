@@ -1,6 +1,6 @@
 package app.model;
 
-
+import app.enums.EstadoHab;
 import app.enums.TipoHab;
 
 import java.io.Serializable;
@@ -8,7 +8,10 @@ import java.io.Serializable;
 public class Habitacion implements Serializable {
 
     private String numero;
-    private boolean estado;//true libre, false ocupado
+    private EstadoHab estado;
+    public TipoHab getTipo() {
+		return tipo;
+	}
 
 	private TipoHab tipo;
     private double precioPorDia;
@@ -17,44 +20,28 @@ public class Habitacion implements Serializable {
         this.numero = numero;
         this.tipo = tipo;
         this.precioPorDia = precioPorDia;
-        estado = true;
+        estado = EstadoHab.LIBRE;
     }
 
-    public TipoHab getTipo() {
-    	return tipo;
-    }
     public String getNumero() {
         return numero;
     }
 
-    
+    public EstadoHab getEstado() {
+        return estado;
+    }
 
-    public boolean isEstado() {
-		return estado;
-	}
+    public void setEstado(EstadoHab estado) {
+        this.estado = estado;
+    }
 
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
-
-	public double getPrecioPorDia() {
+    public double getPrecioPorDia() {
         return precioPorDia;
     }
 
-	public String toStringEstadoHab()
-	{
-		String aux;
-		if(estado==true)
-		{
-			aux="LIBRE";
-		}else{
-			aux="OCUPADO";
-		}
-		return aux;
-	}
     @Override
     public String toString() {
         return "Habitacion " + numero + "\nTipo: " + tipo + "\nPrecio: " + precioPorDia + " x dia" + "\n" +
-                "Estado: " + toStringEstadoHab() + "\n";
+                "Estado: " + estado + "\n";
     }
 }

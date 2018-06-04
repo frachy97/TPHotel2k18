@@ -1,5 +1,6 @@
 package app.model;
 
+import app.enums.EstadoHab;
 import app.enums.Producto;
 
 import java.io.Serializable;
@@ -15,8 +16,7 @@ public class Reserva implements Serializable {
     private String nroReserva;
     private Cliente cliente;
     private Habitacion habitacion;
-
-	private LocalDateTime horarioCreacion = LocalDateTime.now();
+    private LocalDateTime horarioCreacion = LocalDateTime.now();
     /*30/05/2018 Nuevo metodo que registra cuando la reserva fue confirmada con la ocupacion del cliente*/
     private LocalDateTime horarioOcupacion;
 
@@ -31,11 +31,9 @@ public class Reserva implements Serializable {
         nroReserva = String.valueOf(++contadorReservas);
         this.cliente = cliente;
         this.habitacion = habitacion;
+        this.habitacion.setEstado(EstadoHab.RESERVADA);
         this.fechaIngreso = fechaIngreso;
         this.fechaSalida = fechaSalida;
-    }
-    public Cliente getCliente() {
-    	return cliente;
     }
 
 	public List<Producto> getConsumos() {
@@ -58,8 +56,8 @@ public class Reserva implements Serializable {
     /*30/05/2018 registra la ocupacion del cliente*/
     public void confirmarOcupacion() {
         confirmada = true;
-        horarioOcupacion = LocalDateTime.now();
-        habitacion.setEstado(false);
+        horarioCreacion = LocalDateTime.now();
+        habitacion.setEstado(EstadoHab.OCUPADA);
     }
 
     public LocalDate getFechaIngreso() {
