@@ -11,6 +11,10 @@ public class Admin extends Usuario {
         super(id, password, nombre);
     }
 
+    public static Admin proveerDefaultAdmin() {
+        return new Admin("admin", new Password("password"), "nombre");
+    }
+
     /**
      * El administrador da de alta un nuevo Conserje.
      *
@@ -88,10 +92,10 @@ public class Admin extends Usuario {
                     throw new Exception("No se ha ingresado una opcion valida.");
                 }
             }
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.println("No se ha ingresado un numero.");
-        }catch (Exception e) {
-            System.out.println( e.getMessage() );
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         //Cuando confirmo que no ingresó una opcion valida. asigno el valor escogido por el usuario.
         switch (opcion) {
@@ -120,6 +124,7 @@ public class Admin extends Usuario {
         //retornar el idHabitacion, y eliminar la Habitacion en Hotel?
         return idHabitacion;
     }
+
     //modif
     public void modificarPrecioHabitacion(Scanner scanner, Habitacion habitacion) {
         boolean flag = false;
@@ -147,6 +152,7 @@ public class Admin extends Usuario {
         habitacion.setPrecioPorDia(Double.parseDouble(valorIngresado));
 
     }
+
     //modif
     public void modificarTipoHabitacion(Scanner scanner, Habitacion habitacion) {
         //variable para condiciones
