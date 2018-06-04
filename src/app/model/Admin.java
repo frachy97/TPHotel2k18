@@ -88,8 +88,10 @@ public class Admin extends Usuario {
                     throw new Exception("No se ha ingresado una opcion valida.");
                 }
             }
-        } catch (Exception e) {
-            e.getMessage();
+        }catch (NumberFormatException e){
+            System.out.println("No se ha ingresado un numero.");
+        }catch (Exception e) {
+            System.out.println( e.getMessage() );
         }
         //Cuando confirmo que no ingresó una opcion valida. asigno el valor escogido por el usuario.
         switch (opcion) {
