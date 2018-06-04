@@ -20,7 +20,13 @@ public class Cliente {
         this.direccion = direccion;
     }
 
-    public void setNombre(String nombre) {
+    
+    public void agregarEntradaHistorial(String entrada)
+    {
+    	historial.add(entrada);
+    }
+   
+	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
