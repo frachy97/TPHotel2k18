@@ -3,9 +3,7 @@ package app.model;
 
 import java.util.Map;
 import java.util.Scanner;
-
 import java.util.TreeMap;
-
 
 import app.enums.TipoHab;
 import app.menus.Menu;
@@ -26,6 +24,17 @@ public class Hotel {
 
 	public static Hotel getInstancia() {
 		return laInstancia;
+	}
+	
+	public void verClientes(Hotel hotel)
+	{
+		System.out.println("Listado de Clientes almacenados en el sistema:");
+		for (Map.Entry<String, Cliente> entry : clientes.entrySet()) 
+		{
+				Cliente value = entry.getValue();
+				System.out.println(value+"\n");
+			
+		}
 	}
 
 	/*

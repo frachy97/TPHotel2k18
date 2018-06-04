@@ -26,10 +26,11 @@ public class Programa {
         hotel.agregarCliente(unCliente);
         Reserva r=new Reserva(unCliente,habitacion1, LocalDate.now(), LocalDate.of(2018, 6, 3));
         hotel.agregarReserva(r);
-        Reserva r2=new Reserva(unCliente2,habitacion1, LocalDate.of(2018,6,5), LocalDate.of(2018, 6, 6));
+        Reserva r2=new Reserva(unCliente2,habitacion1, LocalDate.of(2018,6,5), LocalDate.of(2018, 6, 10));
         hotel.agregarReserva(r2);
-        conserjito.altaReserva(new Scanner(System.in), hotel);
-        
+        //conserjito.altaReserva(controlador.getInput(), hotel);
+        conserjito.agregarConsumo(controlador.getInput(), r2);
+        conserjito.checkOut(r2);
     }
 
 

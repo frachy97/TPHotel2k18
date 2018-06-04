@@ -1,11 +1,10 @@
 package app.model;
 
 import java.time.LocalDate;
-
+import java.time.Period;
 import java.time.format.DateTimeParseException;
-
+import java.time.temporal.ChronoUnit;
 import java.util.Scanner;
-
 
 import app.enums.Producto;
 import app.menus.Menu;
@@ -167,6 +166,8 @@ public class Conserje extends Usuario {
 /*
  * 
  */
+	
+	
 	public void checkIn(Reserva reserva) {
 		if (reserva.isConfirmada() == false) {
 			reserva.confirmarOcupacion();
@@ -178,18 +179,64 @@ public class Conserje extends Usuario {
 			System.out.println("La reserva ya esta confirmada.");
 		}
 	}
+	
+	public void checkOut(Reserva reserva)
+	{
+		/*Calculo la cantidad de dias que duro la reserva*/
+		int periodo=(int) ChronoUnit.DAYS.between(reserva.getFechaIngreso(), reserva.getFechaSalida());
+		double precioTotal=reserva.getHabitacion().getPrecioPorDia() * periodo;
+		System.out.println("CHECK OUT");
+		System.out.println("El precio de la estadia es de $" +precioTotal);
+		
+		if(reserva.getConsumos()!= null)
+		{
+			double precioProductos=0;
+			for(Producto p: reserva.getConsumos())
+			{
+				System.out.println(p+" - $"+p.getPrecio());
+				precioProductos=precioProductos+p.getPrecio();
+			}
+			precioTotal=reserva.getHabitacion().getPrecioPorDia() * periodo + precioProductos ;
+		}
+		System.out.println("TOTAL A PAGAR: $"+ precioTotal);
+	
+		
+		
+	}
 
 	/*
 	 * Muestra el listado de Productos y da a seleccionar cual se agrega a la
 	 * cuenta.
 	 */
 	public void agregarConsumo(Scanner scan, Reserva aux) {
-		Menu.listadoProductos();
-		System.out.println("Selecciona el numero de producto:\n");
-		String numero = scan.nextLine();
-		aux.getConsumos().add(Producto.buscarPorID(numero));
-		System.out.println("Se ha agregado " + Producto.buscarPorID(numero)
-				+ " a la reserva.");
+		boolean validar=false;
+		boolean validar2=false;
+		String numero=null;
+		while(!validar)
+		{
+			while(!validar2)
+			{
+				Menu.listadoProductos();
+				System.out.println("\nSelecciona el numero de producto:");
+				numero = scan.nextLine();
+				/*Verifico que el numero ingresado
+				 * no sea mayor a la cantidad de Productos */
+				if(Integer.parseInt(numero)> Producto.values().length)
+				{
+					System.out.println("El dato ingresado es incorrecto, reintente.");
+				}else{
+					validar2=true;
+				}
+			}
+			aux.getConsumos().add(Producto.buscarPorID(numero));
+			System.out.println("Se ha agregado " + Producto.buscarPorID(numero)	+ " a la reserva.");
+			System.out.println("Desea agregar otro producto? s/n");
+			String opcion=scan.nextLine();
+			if(!opcion.equals("s"))
+			{
+				validar=true;
+			}
+		}
 
 	}
 

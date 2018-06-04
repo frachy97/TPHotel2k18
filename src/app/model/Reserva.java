@@ -15,9 +15,6 @@ public class Reserva implements Serializable {
     private String nroReserva;
     private Cliente cliente;
     private Habitacion habitacion;
-    public Cliente getCliente() {
-		return cliente;
-	}
 
 	private LocalDateTime horarioCreacion = LocalDateTime.now();
     /*30/05/2018 Nuevo metodo que registra cuando la reserva fue confirmada con la ocupacion del cliente*/
@@ -36,6 +33,9 @@ public class Reserva implements Serializable {
         this.habitacion = habitacion;
         this.fechaIngreso = fechaIngreso;
         this.fechaSalida = fechaSalida;
+    }
+    public Cliente getCliente() {
+    	return cliente;
     }
 
 	public List<Producto> getConsumos() {
