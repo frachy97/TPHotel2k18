@@ -317,4 +317,20 @@ public class Hotel {
 	public void agregarReserva(Reserva r) {
 		reservas.put(r.getNroReserva(), r);
 	}
+	
+	public void removerReserva(String key) {
+        reservas.remove(key);
+    }
+
+    public void removerCliente(String key) {
+        reservas.remove(key);
+    }
+
+    public void removerHabitacion(String key) {
+        reservas.remove(key);
+    }
+
+    public void removerConserje(String key) {
+        reservas.remove(key);
+    }
 }
