@@ -1,6 +1,7 @@
 package app.model;
 
 import java.io.Serializable;
+import java.util.Scanner;
 
 public abstract class Usuario implements Serializable {
 
@@ -30,4 +31,71 @@ public abstract class Usuario implements Serializable {
     public String toString() {
         return "\nUsuario: " + id + "\nNombre: " + nombre;
     }
+    
+    
+    /*05/06/2018
+     * Modifica los datos de cualquier usuario
+     */
+    
+    public void modificarDatosUsuario(Scanner scanner, Usuario user) {
+
+     
+        boolean requisitosContrasenia;
+        String userConfirm = "";
+        String id = null;
+        String psw = null;
+        String nombre = null;
+
+        while (!userConfirm.equals("s")) {
+
+            System.out.println("Ingresar nuevo id: ");
+            id = scanner.nextLine();
+         
+
+            /*Asigno false para que entre al "while" mas de una vez en caso de que el usuario haya ingresado mal
+            su posible contrasenia*/
+            requisitosContrasenia = false;
+            while (!requisitosContrasenia) {
+                System.out.println("Ingrese nueva contrasenia (alfanumerica 8-20 digitos): ");
+                psw = scanner.nextLine();
+
+                if (Password.hasLongitudCorrecta(psw) && Password.isAlfanumerico(psw)) {
+                    requisitosContrasenia = true;
+                } else {
+                    System.out.println("La contrasenia ingresada no cumple todos los requisitos: ");
+                }
+                
+               
+            }
+
+            System.out.println("Ingresar nuevo nombre: ");
+            nombre = scanner.nextLine();
+
+            System.out.println("Usted ha ingresado los siguientes datos: " +
+                    "\nid: " + id +
+                    "\npassword: " + psw +
+                    "\nnombre: " + nombre +
+                    "\nDesea confirmar los datos? s/n");
+            		userConfirm = scanner.nextLine();
+            		
+           if(userConfirm.equals("s"))
+           {
+        	   user.setId(id);
+        	   user.setPassword(new Password(psw));
+        	   user.setNombre(nombre);
+           }
+        }
+    }
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setPassword(Password password) {
+		this.password = password;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 }
