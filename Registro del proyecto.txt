@@ -1,0 +1,45 @@
+02/05/18
+Hicimos una lectura de la consigna, y anotamos posibles "Clases" fundamentales para
+el funcionamiento de nuestro sistema.
+
+03/05/18
+Empezamos a escribir ideas básicas a la pregunta"¿Cómo 
+está conformado un Hotel? y ¿Cómo es su comportamiento?"
+
+07/05/18
+
+09/05/18
+
+10/05/18
+
+14/05/18
+
+15/05/18 //tutorias
+
+16/05/18
+
+17/05/18
+
+
+21
+22//tutorias
+23
+
+24/05/18
+Test en código de cómo funcionaria Controlador
+Diseño de clases en mini-hojas ( atributos,metodos con sus respectivos tipo-de-dato)
+Descripción del funcionamiento de cada clase
+
+4/6/2018
+Problemas con github Desktop, perdimos 2 horas intentando revertir los cambios
+
+5/6/2018
+modificacion de 2 metodos en admin
+modificar habitacion precio por día y
+eliminar habitacion
+modificar datos de usuario
+listado reserva, clientes
+agregado metodo de remover elemento de los mapas
+cancelar reserva
+Problematica con variables estaticas resueltas por mister IVO.
+clase admin: problemas con método: setearTipoHabitacion()
