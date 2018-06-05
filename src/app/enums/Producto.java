@@ -3,9 +3,7 @@ package app.enums;
 public enum Producto {
 	
 	AGUA(20), CHOCOLATE(25), CARGADORCELULAR(200), CERVEZA(50), GASEOSA(30),CHAMPAGNE(250);
-	
-	
-	
+
 	static int contador;
 	double precio;
 	/*
