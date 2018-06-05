@@ -1,6 +1,7 @@
 package app.model;
 
 import app.enums.TipoHab;
+import app.menus.Menu;
 
 import java.util.Scanner;
 
@@ -9,10 +10,6 @@ public class Admin extends Usuario {
 
     public Admin(String id, Password password, String nombre) {
         super(id, password, nombre);
-    }
-
-    public static Admin proveerDefaultAdmin() {
-        return new Admin("admin", new Password("password"), "nombre");
     }
 
     /**
@@ -31,7 +28,7 @@ public class Admin extends Usuario {
         String psw = null;
         String nombre = null;
 
-        while (!userConfirm.equals("si")) {
+        while (!userConfirm.equals("s")) {
 
             System.out.println("Ingresar id: ");
             id = scanner.nextLine();
@@ -57,13 +54,12 @@ public class Admin extends Usuario {
                     "\nid: " + id +
                     "\npsw: " + psw +
                     "\nnombre: " + nombre +
-                    "\nConfirmar: si" +
+                    "\nConfirmar: s" +
                     "\nVolver a ingresar los datos: Presionar cualquier tecla.");
             userConfirm = scanner.nextLine();
         }
         return new Conserje(id, new Password(psw), nombre);
     }
-
 
     public void habilitarODeshabilitarConserje(Conserje conserje) {
         conserje.cambiarEstadoHabilitado();
@@ -98,24 +94,9 @@ public class Admin extends Usuario {
             System.out.println(e.getMessage());
         }
         //Cuando confirmo que no ingresó una opcion valida. asigno el valor escogido por el usuario.
-        switch (opcion) {
-            case "1":
-                tipoHabitacion = TipoHab.INDIVIDUAL;
-                break;
-            case "2":
-                tipoHabitacion = TipoHab.MATRIMONIAL;
-                break;
-            case "3":
-                tipoHabitacion = TipoHab.FAMILIAR;
-                break;
-        }
+        tipoHabitacion=TipoHab.buscarPorID(opcion);
 
-
-        System.out.println("Ingresar precio por día: ");
-        double precioxdia = scanner.nextDouble();
-
-        //limpio el \n que quedó del nextdouble
-        scanner.nextLine();
+        double precioxdia = generarNuevoPrecio(scanner);
 
         return (new Habitacion(numeroHabitacion, tipoHabitacion, precioxdia));
     }
@@ -136,21 +117,40 @@ public class Admin extends Usuario {
     }
 
     //modif
-    public void modificarPrecioHabitacion(Scanner scanner, Habitacion habitacion) {
-        boolean flag = false;
-        String valorIngresado = "";
-        while (!flag) {
+    public void modificarPrecioHabitacion(Scanner scanner, Hotel hotel) {
 
+        boolean flag = false;
+        hotel.listarHabitacionesLibres();
+        String valorIngresado = "";
+        Habitacion aux;
+        String num = null;
+
+        System.out.println("Ingrese el numero de habitacion a modificar: ");
+        num = scanner.nextLine();
+        if (!hotel.existeHabitacion(num)) {
+            System.out.println("El numero no existe.");
+            return;
+        }
+
+        aux = hotel.getHabitaciones().get(num);
+        aux.setPrecioPorDia(generarNuevoPrecio(scanner));
+    }
+
+    /*05/06/18 nuevo metodo, se busca no repetir codigo modularizando*/
+    public double generarNuevoPrecio(Scanner scanner) {
+
+        boolean valido = false;
+        String valorIngresado = null;
+
+        while (!valido) {
             try {
-                System.out.println("Ingrese el nuevo valor de la habitacion: ");
+                System.out.println("Ingrese el valor de la habitacion (minimo 200): ");
                 valorIngresado = scanner.nextLine();
 
-                if (Double.parseDouble(valorIngresado) >= 1) {
-                    flag = true;
-                } else if (Double.parseDouble(valorIngresado) == 0) {
-                    throw new Exception("El coste de la habitacion no puede ser 0.");
+                if (Double.parseDouble(valorIngresado) >= 200) {
+                    valido = true;
                 } else {
-                    throw new Exception("El sistema no acepta valores negativos.");
+                    throw new Exception("El valor debe ser 200 o superior.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("El dato ingresado no es un numero.");
@@ -158,13 +158,11 @@ public class Admin extends Usuario {
                 System.out.println(e.getMessage());
             }
         }
-
-        habitacion.setPrecioPorDia(Double.parseDouble(valorIngresado));
-
+        return Double.parseDouble(valorIngresado);
     }
 
     //modif
-    public void modificarTipoHabitacion(Scanner scanner, Habitacion habitacion) {
+    public void setearTipoHabitacion(Scanner scanner, Habitacion habitacion) {
         //variable para condiciones
         boolean flag = false;
         String opcion = "";
@@ -173,7 +171,8 @@ public class Admin extends Usuario {
         while (!flag) {
             try {
 
-                System.out.println("A qué tipo de habitacion desea modificarla?: \n1: Individual \n2: Matrimonial \n3: Familiar");
+                System.out.println("Seleccione un tipo de habitacion: ");
+                Menu.listadoTipoHab();
                 opcion = scanner.nextLine();
 
                 //Válido si el usuario ingresó una opción correcta.
@@ -185,27 +184,16 @@ public class Admin extends Usuario {
                     throw new Exception("No se ha ingresado una opcion valida.");
                 }
             } catch (Exception e) {
-                e.getMessage();
+                System.out.println(e.getMessage());
             }
         }
-        //Cuando confirmo que no ingresó una opcion valida. asigno el valor escogido por el usuario.
 
-        switch (opcion) {
-            case "1":
-                habitacion.setTipo(TipoHab.INDIVIDUAL);
-                break;
-            case "2":
-                habitacion.setTipo(TipoHab.MATRIMONIAL);
-                break;
-            case "3":
-                habitacion.setTipo(TipoHab.FAMILIAR);
-                break;
-        }
-
-        /* o es mejor mostrarle un menú de opciones?
-         */
+       habitacion.setTipo(TipoHab.buscarPorID(opcion));
     }
 
+    public static Admin proveerDefaultAdmin() {
+        return new Admin("admin", new Password("password"), "nombre");
+    }
 }
 
 

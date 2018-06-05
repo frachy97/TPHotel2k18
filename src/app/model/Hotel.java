@@ -86,7 +86,7 @@ public class Hotel {
 	/*
 	 * Pide que se le especifique el tipo de habitacion, Lista la q esten libres
 	 */
-	public void listadoHabitaciones(Scanner scan) {
+	public void listadoHabitacionesPorTipo(Scanner scan) {
 		System.out.println("Ingrese el tipo de Habitacion que desea: ");
 		Menu.listadoTipoHab();
 		String opcion = scan.nextLine();
@@ -120,11 +120,11 @@ public class Hotel {
 				System.out
 						.println("No se ha encontrado ninguna habitacion del tipo "
 								+ TipoHab.buscarPorID(opcion));
-				listadoHabitaciones(scan);
+				listadoHabitacionesPorTipo(scan);
 			}
 		} else {
 			System.out.println("Los datos ingresados son incorrectos");
-			listadoHabitaciones(scan);
+			listadoHabitacionesPorTipo(scan);
 		}
 	}
 
@@ -160,14 +160,6 @@ public class Hotel {
 			System.out.println("No hay habitaciones ocupadas\n");
 		}
 	}
-         
-/**
-     * Elimina una habitacion pidiendo el ID de una.
-     * @param ID de la habitacion
-     */
-    public void removerHabitacion(String idHabitacion) {
-        habitaciones.remove(idHabitacion);
-    }
 
     /**
      * Verifica si en el mapa existe la habitacion.
@@ -189,7 +181,7 @@ public class Hotel {
 	 * devolver una hab null Deberia tratarse mejor
 	 */
 	public Habitacion buscarHabitacion(Scanner scan) {
-		listadoHabitaciones(scan);
+		listadoHabitacionesPorTipo(scan);
 		System.out.println("Ingrese el numero de habitacion a seleccionar: \n");
 		String hab = scan.nextLine();
 		Habitacion aux = null;
@@ -225,7 +217,13 @@ public class Hotel {
 		}
 	}
 
-	
+
+
+
+
+
+
+
 	/*
 	 *  05/06/2018 se crearon los siguientes 3 metodos
 	 */
