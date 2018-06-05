@@ -160,6 +160,28 @@ public class Hotel {
 			System.out.println("No hay habitaciones ocupadas\n");
 		}
 	}
+         
+/**
+     * Elimina una habitacion pidiendo el ID de una.
+     * @param ID de la habitacion
+     */
+    public void removerHabitacion(String idHabitacion) {
+        habitaciones.remove(idHabitacion);
+    }
+
+    /**
+     * Verifica si en el mapa existe la habitacion.
+     * @param idHabitacion
+     * @return true/false
+     */
+    public boolean existeHabitacion(String idHabitacion) {
+        for (Map.Entry<String, Habitacion> entry : habitaciones.entrySet()) {
+            if (idHabitacion.equals(entry.getKey())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 	/*
 	 * mediante el anterior metodo se listan las hab libres y se pide que se
