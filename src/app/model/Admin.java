@@ -120,9 +120,19 @@ public class Admin extends Usuario {
         return (new Habitacion(numeroHabitacion, tipoHabitacion, precioxdia));
     }
 
-    public String eliminarHabitacion(String idHabitacion) {
-        //retornar el idHabitacion, y eliminar la Habitacion en Hotel?
-        return idHabitacion;
+    public void eliminarHabitacion(Hotel hotel, Scanner scanner) {
+        String opcion = "";
+        while (!opcion.equals("s")) {
+            System.out.println("Ingrese el ID de habitacion a buscar.");
+            String idHabitacion = scanner.nextLine();
+            if (hotel.existeHabitacion(idHabitacion)) {
+                hotel.removerHabitacion(idHabitacion);
+            } else {
+                System.out.println("La habitacion no existe.");
+            }
+            System.out.println("¿Desea volver a intenterlo?s/n");
+            opcion = scanner.nextLine();
+        }
     }
 
     //modif
