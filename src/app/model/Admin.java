@@ -3,6 +3,7 @@ package app.model;
 import app.enums.TipoHab;
 import app.menus.Menu;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Admin extends Usuario {
@@ -18,7 +19,7 @@ public class Admin extends Usuario {
      * @param scanner
      * @return retorna un nuevo Conserje
      */
-    public Conserje darDeAltaConserje(Scanner scanner) {
+    public Conserje altaConserje(Scanner scanner) {
 
         //variables para condicionar
         boolean requisitosContrasenia;
@@ -61,8 +62,36 @@ public class Admin extends Usuario {
         return new Conserje(id, new Password(psw), nombre);
     }
 
-    public void habilitarODeshabilitarConserje(Conserje conserje) {
-        conserje.cambiarEstadoHabilitado();
+    public void cambiarEstadoConserje(Hotel hotel, Scanner scanner) {
+        try {
+            Conserje conserje = obtenerConserjePorClave(scanner, hotel);
+            conserje.cambiarEstadoHabilitado();
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /*07/06/2018 k lendo*/
+    public void eliminarConserje(Hotel hotel, Scanner scanner) {
+        try {
+            hotel.removerConserje(obtenerConserjePorClave(scanner, hotel).getId());
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /*07/06/2018 modularizacion*/
+    public Conserje obtenerConserjePorClave(Scanner scanner, Hotel hotel) {
+        String dni = null;
+        Conserje conserje = null;
+        System.out.println("Lista de conserjes:\n");
+        hotel.listarTodosLosConserjes();
+
+        System.out.println("Seleccione el DNI del conserje: ");
+
+        conserje = hotel.encontrarConserjePorClave(scanner.nextLine());
+
+        return conserje;
     }
 
     public Habitacion agregarHabitacion(Scanner scanner) {
@@ -94,9 +123,9 @@ public class Admin extends Usuario {
             System.out.println(e.getMessage());
         }
         //Cuando confirmo que no ingresó una opcion valida. asigno el valor escogido por el usuario.
-        tipoHabitacion=TipoHab.buscarPorID(opcion);
+        tipoHabitacion = TipoHab.buscarPorID(opcion);
 
-        double precioxdia = generarNuevoPrecio(scanner);
+        double precioxdia = generarNuevoPrecioHabitacion(scanner);
 
         return (new Habitacion(numeroHabitacion, tipoHabitacion, precioxdia));
     }
@@ -116,28 +145,34 @@ public class Admin extends Usuario {
         }
     }
 
-    //modif
+    /*07/06/2018 modificacion de metodo*/
     public void modificarPrecioHabitacion(Scanner scanner, Hotel hotel) {
 
-        boolean flag = false;
-        hotel.listarHabitacionesLibres();
-        String valorIngresado = "";
-        Habitacion aux;
-        String num = null;
+        List<Habitacion> modificables = hotel.listadoHabitacionesModificables();
 
-        System.out.println("Ingrese el numero de habitacion a modificar: ");
-        num = scanner.nextLine();
-        if (!hotel.existeHabitacion(num)) {
-            System.out.println("El numero no existe.");
-            return;
+        if (!modificables.isEmpty()) {
+            System.out.println("Habitaciones modificables: \n");
+            for (Habitacion h : modificables) {
+                System.out.println(h);
+            }
+
+            System.out.println("Ingrese el numero de la habitacion a modificar: ");
+            String numero = scanner.nextLine();
+
+            for (Habitacion h : modificables) {
+                if (numero.equals(h.getNumero())) {
+                    h.setPrecioPorDia(generarNuevoPrecioHabitacion(scanner));
+                } else {
+                    System.out.println("El numero no es valido");
+                }
+            }
+        } else {
+            System.out.println("No hay habitaciones modificables en este momento.");
         }
-
-        aux = hotel.getHabitaciones().get(num);
-        aux.setPrecioPorDia(generarNuevoPrecio(scanner));
     }
 
     /*05/06/18 nuevo metodo, se busca no repetir codigo modularizando*/
-    public double generarNuevoPrecio(Scanner scanner) {
+    public double generarNuevoPrecioHabitacion(Scanner scanner) {
 
         boolean valido = false;
         String valorIngresado = null;
@@ -161,8 +196,32 @@ public class Admin extends Usuario {
         return Double.parseDouble(valorIngresado);
     }
 
-    //modif
-    public void setearTipoHabitacion(Scanner scanner, Habitacion habitacion) {
+    public void modificarTipoHabitacion(Scanner scanner, Hotel hotel) {
+
+        List<Habitacion> modificables = hotel.listadoHabitacionesModificables();
+
+        if (!modificables.isEmpty()) {
+            System.out.println("Habitaciones modificables: \n");
+            for (Habitacion h : modificables) {
+                System.out.println(h);
+            }
+
+            System.out.println("Ingrese el numero de la habitacion a modificar: ");
+            String numero = scanner.nextLine();
+
+            for (Habitacion h : modificables) {
+                if (numero.equals(h.getNumero())) {
+                    h.setTipo(generarTipoHabitacion(scanner));
+                } else {
+                    System.out.println("El numero no es valido");
+                }
+            }
+        } else {
+            System.out.println("No hay habitaciones modificables en este momento.");
+        }
+    }
+
+    private TipoHab generarTipoHabitacion(Scanner scanner) {
         //variable para condiciones
         boolean flag = false;
         String opcion = "";
@@ -188,7 +247,7 @@ public class Admin extends Usuario {
             }
         }
 
-       habitacion.setTipo(TipoHab.buscarPorID(opcion));
+        return TipoHab.buscarPorID(opcion);
     }
 
     public static Admin proveerDefaultAdmin() {

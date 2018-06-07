@@ -29,7 +29,7 @@ public abstract class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "\nUsuario: " + id + "\nNombre: " + nombre;
+        return "\nDNI: " + id + "\nNombre: " + nombre;
     }
     
     
