@@ -9,15 +9,21 @@ public class Habitacion implements Serializable {
 
     private String numero;
     private boolean estado;//true libre, false ocupado
-
     private TipoHab tipo;
     private double precioPorDia;
+    /*Si es 'false', es modificable*/
+    private boolean habilitada;
 
     public Habitacion(String numero, TipoHab tipo, double precioPorDia) {
         this.numero = numero;
         this.tipo = tipo;
         this.precioPorDia = precioPorDia;
         estado = true;
+        habilitada = true;
+    }
+
+    public void cambiarEstadoHabilitado(){
+        habilitada = !habilitada;
     }
 
     public TipoHab getTipo() {

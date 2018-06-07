@@ -18,6 +18,18 @@ public class IOGenericoUtil {
         }
     }
 
+    public static <T extends Serializable> void esciribirObjeto(T t, String ruta)
+    {
+        File file1 = new File(ruta);
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(ruta))) {
+
+            out.writeObject(t);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     public static <T extends Serializable> T leerObjeto(File file) {
 
