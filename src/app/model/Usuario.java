@@ -31,15 +31,14 @@ public abstract class Usuario implements Serializable {
     public String toString() {
         return "\nDNI: " + id + "\nNombre: " + nombre;
     }
-    
-    
+
+
     /*05/06/2018
      * Modifica los datos de cualquier usuario
      */
-    
-    public void modificarDatosUsuario(Scanner scanner, Usuario user) {
 
-     
+    public void modificarDatosUsuario(Scanner scanner) {
+
         boolean requisitosContrasenia;
         String userConfirm = "";
         String id = null;
@@ -64,8 +63,6 @@ public abstract class Usuario implements Serializable {
                 } else {
                     System.out.println("La contrasenia ingresada no cumple todos los requisitos: ");
                 }
-                
-               
             }
 
             System.out.println("Ingresar nuevo nombre: ");
@@ -76,26 +73,25 @@ public abstract class Usuario implements Serializable {
                     "\npassword: " + psw +
                     "\nnombre: " + nombre +
                     "\nDesea confirmar los datos? s/n");
-            		userConfirm = scanner.nextLine();
-            		
-           if(userConfirm.equals("s"))
-           {
-        	   user.setId(id);
-        	   user.setPassword(new Password(psw));
-        	   user.setNombre(nombre);
-           }
+            userConfirm = scanner.nextLine();
+
+            if (userConfirm.equals("s")) {
+                setId(id);
+                setPassword(new Password(psw));
+                setNombre(nombre);
+            }
         }
     }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setPassword(Password password) {
-		this.password = password;
-	}
+    public void setPassword(Password password) {
+        this.password = password;
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 }
