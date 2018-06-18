@@ -13,12 +13,18 @@ public class Admin extends Usuario {
         super(id, password, nombre);
     }
 
+    /*Credenciales estandar para admin. Este metodo se llama cuando el sistema no detecta usuario admin al iniciar*/
+    public static Admin proveerDefaultAdmin() {
+        return new Admin("admin", new Password("password"), "nombre");
+    }
     /**
      * El administrador da de alta un nuevo Conserje.
      *
      * @param scanner
      * @return retorna un nuevo Conserje
      */
+
+    /*Metodos de gestion de conserjes*/
     public Conserje altaConserje(Scanner scanner) {
 
         //variables para condicionar
@@ -71,7 +77,6 @@ public class Admin extends Usuario {
         }
     }
 
-    /*07/06/2018 k lendo*/
     public void eliminarConserje(Hotel hotel, Scanner scanner) {
         try {
             hotel.removerConserje(obtenerConserjePorClave(scanner, hotel).getId());
@@ -80,8 +85,7 @@ public class Admin extends Usuario {
         }
     }
 
-    /*07/06/2018 modularizacion*/
-    public Conserje obtenerConserjePorClave(Scanner scanner, Hotel hotel) {
+    private Conserje obtenerConserjePorClave(Scanner scanner, Hotel hotel) {
         String dni = null;
         Conserje conserje = null;
         System.out.println("Lista de conserjes:\n");
@@ -94,6 +98,7 @@ public class Admin extends Usuario {
         return conserje;
     }
 
+    /*Metodos de gestion de habitaciones*/
     public Habitacion agregarHabitacion(Scanner scanner) {
         boolean flag = false;
         String opcion = "";
@@ -130,7 +135,7 @@ public class Admin extends Usuario {
         return (new Habitacion(numeroHabitacion, tipoHabitacion, precioxdia));
     }
 
-    public void eliminarHabitacion(Hotel hotel, Scanner scanner) {
+    public void eliminarHabitacion(Scanner scanner, Hotel hotel) {
         String opcion = "";
         while (!opcion.equals("s")) {
             System.out.println("Ingrese el ID de habitacion a buscar.");
@@ -145,10 +150,9 @@ public class Admin extends Usuario {
         }
     }
 
-    /*07/06/2018 modificacion de metodo*/
     public void modificarPrecioHabitacion(Scanner scanner, Hotel hotel) {
 
-        List<Habitacion> modificables = hotel.listadoHabitacionesModificables();
+        List<Habitacion> modificables = hotel.obtenerHabitacionesModificables();
 
         if (!modificables.isEmpty()) {
             System.out.println("Habitaciones modificables: \n");
@@ -171,8 +175,7 @@ public class Admin extends Usuario {
         }
     }
 
-    /*05/06/18 nuevo metodo, se busca no repetir codigo modularizando*/
-    public double generarNuevoPrecioHabitacion(Scanner scanner) {
+    private double generarNuevoPrecioHabitacion(Scanner scanner) {
 
         boolean valido = false;
         String valorIngresado = null;
@@ -198,7 +201,7 @@ public class Admin extends Usuario {
 
     public void modificarTipoHabitacion(Scanner scanner, Hotel hotel) {
 
-        List<Habitacion> modificables = hotel.listadoHabitacionesModificables();
+        List<Habitacion> modificables = hotel.obtenerHabitacionesModificables();
 
         if (!modificables.isEmpty()) {
             System.out.println("Habitaciones modificables: \n");
@@ -250,8 +253,26 @@ public class Admin extends Usuario {
         return TipoHab.buscarPorID(opcion);
     }
 
-    public static Admin proveerDefaultAdmin() {
-        return new Admin("admin", new Password("password"), "nombre");
+    /*Metodos de gestion de clientes*/
+    public void eliminarCliente(Scanner scanner, Hotel hotel) {
+        try {
+            hotel.removerCliente(obtenerClientePorClave(hotel, scanner).getDni());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private Cliente obtenerClientePorClave(Hotel hotel, Scanner scanner) {
+        String dni = null;
+        Cliente cliente = null;
+        System.out.println("Lista de clientes:\n");
+        hotel.listarTodosLosClientes();
+
+        System.out.println("Seleccione el DNI del cliente a eliminar: ");
+
+        cliente = hotel.encontrarClientePorClave(scanner.nextLine());
+
+        return cliente;
     }
 }
 

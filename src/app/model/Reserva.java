@@ -15,11 +15,8 @@ public class Reserva implements Serializable {
     private String nroReserva;
     private Cliente cliente;
     private Habitacion habitacion;
-
     private LocalDateTime horarioCreacion = LocalDateTime.now();
-    /*30/05/2018 Nuevo metodo que registra cuando la reserva fue confirmada con la ocupacion del cliente*/
     private LocalDateTime horarioOcupacion;
-
     private LocalDate fechaIngreso;
     private LocalDate fechaSalida;
     private boolean confirmada = false;
@@ -48,6 +45,10 @@ public class Reserva implements Serializable {
         return nroReserva;
     }
 
+    public void setNroReserva(String nroReserva) {
+        this.nroReserva = nroReserva;
+    }
+
     public boolean isConfirmada() {
         return confirmada;
     }
@@ -56,7 +57,6 @@ public class Reserva implements Serializable {
         return habitacion;
     }
 
-    /*30/05/2018 registra la ocupacion del cliente*/
     public void confirmarOcupacion() {
         confirmada = true;
         horarioOcupacion = LocalDateTime.now();

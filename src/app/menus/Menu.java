@@ -1,8 +1,5 @@
 package app.menus;
 
-import java.util.Scanner;
-
-
 import app.enums.Producto;
 import app.enums.TipoHab;
 
@@ -15,14 +12,6 @@ public class Menu {
         System.out.println("4. Administrar informacion propia");
         System.out.println();
         System.out.println("0. Cerrar sesion\n");
-        seleccionOpcion();
-    }
-
-    public static void subMenuInfoPropia() {
-        System.out.println("1. Ver informacion propia");
-        System.out.println("2. Modificar informacion");
-        System.out.println();
-        System.out.println("0. Volver\n");
         seleccionOpcion();
     }
 
@@ -46,9 +35,10 @@ public class Menu {
 
     public static void adminSubMenuHabitaciones() {
         System.out.println("1. Crear habitacion");
-        System.out.println("2. Modificar habitacion");
-        System.out.println("3. Eliminar habitacion");
-        System.out.println("4. Ver todas las habitaciones");
+        System.out.println("2. Modificar tipo de habitacion");
+        System.out.println("3. Modificar precio de habitacion");
+        System.out.println("4. Eliminar habitacion");
+        System.out.println("5. Ver todas las habitaciones");
         System.out.println();
         System.out.println("0. Volver\n");
         seleccionOpcion();
@@ -89,6 +79,15 @@ public class Menu {
         System.out.println("2. Ver habitaciones ocupadas");
         System.out.println();
         System.out.println("0. Volver");
+        seleccionOpcion();
+    }
+
+
+    public static void subMenuInfoPropia() {
+        System.out.println("1. Ver informacion propia");
+        System.out.println("2. Modificar informacion");
+        System.out.println();
+        System.out.println("0. Volver\n");
         seleccionOpcion();
     }
 

@@ -7,21 +7,9 @@ public class IOGenericoUtil {
     private IOGenericoUtil() {
     }
 
-    public static <T extends Serializable> void esciribirObjeto(T t, File file) {
+    public static <T extends Serializable> void escribirObjeto(T t, File file) {
 
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
-
-            out.writeObject(t);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static <T extends Serializable> void esciribirObjeto(T t, String ruta)
-    {
-        File file1 = new File(ruta);
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(ruta))) {
 
             out.writeObject(t);
 

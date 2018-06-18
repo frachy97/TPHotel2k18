@@ -14,4 +14,5 @@ public class Archivos {
     public static final String RESERVAS_S = DIR + "reservas.dat";
     public static final File HABITACIONES = new File(DIR, "habitaciones.dat");
     public static final File INGRESOS = new File(DIR, "ingresos.dat");
+    public static final File CONTADOR_RESERVAS = new File(DIR, "contador_reservas.dat");
 }

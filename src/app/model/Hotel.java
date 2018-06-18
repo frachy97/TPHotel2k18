@@ -1,14 +1,16 @@
 package app.model;
 
-import java.util.*;
-
 import app.archivos.Archivos;
 import app.enums.TipoHab;
 import app.menus.Menu;
 import app.utils.IOGenericoUtil;
 
+import java.time.LocalDate;
+import java.util.*;
+
 public class Hotel {
 
+    /*Diseño 'simpleton'. Asegura que solo sea posible una unica instancia de Hotel.*/
     private static Hotel laInstancia = new Hotel();
 
     private TreeMap<String, Habitacion> habitaciones;
@@ -17,6 +19,7 @@ public class Hotel {
     private TreeMap<String, Reserva> reservas;
     private Admin admin;
     private Double totalIngresos;
+    private Integer contadorReservas;
 
     private Hotel() {
 
@@ -39,65 +42,58 @@ public class Hotel {
         if ((totalIngresos = IOGenericoUtil.leerObjeto(Archivos.INGRESOS)) == null) {
             totalIngresos = (double) 0;
         }
+        if ((contadorReservas = IOGenericoUtil.leerObjeto(Archivos.CONTADOR_RESERVAS)) == null) {
+            contadorReservas = 0;
+        }
     }
 
+    /*Metodo de instanciacion del unico objeto de tipo Hotel.*/
     public static Hotel getInstancia() {
         return laInstancia;
     }
 
     /*
-     * Este metodo busca un cliente x dni si no lo encuentra retorna null
+     * mediante el anterior metodo se listan las hab libres y se pide que se
+     * seleccione una. Se retorna en caso de que los datos sean erroneos va a
+     * devolver una hab null Deberia tratarse mejor
      */
-    public Cliente buscarCliente(Scanner scan) {
-        System.out.println("Ingrese dni del Cliente a buscar: ");
-        String dni = scan.nextLine();
+    /*Siguientes 3 metodos se encargan de proveer una habitacion valida (o null :^\) para reserva.*/
+    public Habitacion seleccionarHabitacionParaReserva(Scanner scan) {
 
-        Cliente aux = null;
+        listadoHabitacionesPorTipo(scan);
+        System.out.println("Ingrese el numero de habitacion a seleccionar: \n");
+        String numero = scan.nextLine();
+        Habitacion aux = null;
 
-        boolean flag = false;
-        for (Map.Entry<String, Cliente> entry : clientes.entrySet()) {
-            if (!flag) {
-                Cliente value = entry.getValue();
-                String key = entry.getKey();
-                if (key.equals(dni)) {
-                    aux = value;
-                    flag = true;
-                }
+        for (Habitacion h : habitaciones.values()) {
+            if (numero.equals(h.getNumero())) {
+                aux = h;
             }
         }
+
+        verReservasHabitacion(numero);
 
         if (aux == null) {
-            System.out.println("No se encontro ningun cliente con el dni "+ dni + " en la base de datos.");
-            System.out.println("Volver a intentar? s/n");
-            String opcion = scan.nextLine();
-            if (opcion.equals("s")) {
-                aux = buscarCliente(scan);
-            }
-        } else {
-            System.out.println("Se ha encontrado el siguiente Cliente: " + aux);
+            System.out.println("Los datos ingresados son incorrectos \n");
+            aux = seleccionarHabitacionParaReserva(scan);
         }
-
         return aux;
     }
 
-    /*
-     * Pide que se le especifique el tipo de habitacion, Lista la q esten libres
-     */
-
-    public void listarTodosLosConserjes() {
-        for (Conserje c : conserjes.values()) {
-            System.out.println(c);
+    public void verReservasHabitacion(String numeroHab) {
+        boolean valido = false;
+        for (Reserva r : reservas.values()) {
+            if (r.getHabitacion().getNumero().equals(numeroHab)) {
+                while (!valido) {
+                    System.out.println("Existen reservas pertenecientes a dicha habitacion:");
+                    valido = true;
+                }
+                System.out.println(r);
+            }
         }
     }
 
-    public Conserje encontrarConserjePorClave(String key) {
-        if (!conserjes.containsKey(key)) {
-            throw new NullPointerException("No existe conserje con ese DNI.");
-        }
-        return conserjes.get(key);
-    }
-
-    public void listadoHabitacionesPorTipo(Scanner scan) {
+    private void listadoHabitacionesPorTipo(Scanner scan) {
         System.out.println("Ingrese el tipo de Habitacion que desea: ");
         Menu.listadoTipoHab();
         String opcion = scan.nextLine();
@@ -118,7 +114,7 @@ public class Hotel {
                      * Una vez que entra significa que hay al menos una
                      * habitacion
                      */
-                    if (haydato == false) {
+                    if (!haydato) {
                         System.out.println("Listado de Habitaciones libres:");
                         haydato = true;
                     }
@@ -127,10 +123,8 @@ public class Hotel {
                 }
             }
 
-            if (haydato == false) {
-                System.out
-                        .println("No se ha encontrado ninguna habitacion del tipo "
-                                + TipoHab.buscarPorID(opcion));
+            if (!haydato) {
+                System.out.println("No se ha encontrado ninguna habitacion del tipo " + TipoHab.buscarPorID(opcion));
                 listadoHabitacionesPorTipo(scan);
             }
         } else {
@@ -139,7 +133,14 @@ public class Hotel {
         }
     }
 
-    /* 03/06/2018 Agregados los siguientes tres metodos */
+
+    /*Metodos de listado de elementos en mapas*/
+    public void listarTodosLosConserjes() {
+        for (Conserje c : conserjes.values()) {
+            System.out.println(c);
+        }
+    }
+
     public void listarTodasLashabitaciones() {
         for (Habitacion h : habitaciones.values()) {
             System.out.println(h);
@@ -172,8 +173,98 @@ public class Hotel {
         }
     }
 
-    /*07/06/2018 metodo muy groso hecho por mi solo yo y yo yo soy nada narcisista*/
-    public List<Habitacion> listadoHabitacionesModificables() {
+    public void listarTodosLosClientes() {
+        for (Cliente c : clientes.values()) {
+            System.out.println(c);
+        }
+    }
+
+    public void listarTodasLasReservas() {
+        for (Reserva r : reservas.values()) {
+            System.out.println(r);
+        }
+    }
+
+
+    /*metodos de agregado y quita de elementos en los mapas*/
+    public void agregarConserje(Conserje c) {
+        conserjes.put(c.getId(), c);
+    }
+
+    public void agregarHabitacion(Habitacion h) {
+        habitaciones.put(h.getNumero(), h);
+    }
+
+    public void agregarCliente(Cliente c) {
+        clientes.put(c.getDni(), c);
+    }
+
+    public void agregarReserva(Reserva r) {
+        r.setNroReserva(String.valueOf(++contadorReservas));
+        reservas.put(r.getNroReserva(), r);
+    }
+
+    public void removerReserva(String key) {
+        reservas.remove(key);
+    }
+
+    public void removerCliente(String key) {
+        clientes.remove(key);
+    }
+
+    public void removerHabitacion(String key) {
+        habitaciones.remove(key);
+    }
+
+    public void removerConserje(String key) {
+        conserjes.remove(key);
+    }
+
+    public void agregarIngreso(double ingreso) {
+        totalIngresos += ingreso;
+    }
+
+
+    /*Metodos que devuelven un elemento en los mapas segun clave. Arrojan excepciones en caso de que la clave
+    * no sea valida*/
+    public Conserje encontrarConserjePorClave(String key) {
+        if (!conserjes.containsKey(key)) {
+            throw new NullPointerException("No existe conserje con ese DNI.");
+        }
+        return conserjes.get(key);
+    }
+
+    public Cliente encontrarClientePorClave(String key) {
+        if (!conserjes.containsKey(key)) {
+            throw new NullPointerException("No existe conserje con ese DNI.");
+        }
+        return clientes.get(key);
+    }
+
+
+    /*Metodos que devuelven listas de elementos dentro de los mapas que cumplan con un cierto requisito*/
+    public List<Reserva> obtenerReservasDeLaFecha() {
+
+        List<Reserva> validas = new ArrayList<>();
+        for (Reserva r : reservas.values()) {
+            if (r.getFechaIngreso().equals(LocalDate.now())) {
+                validas.add(r);
+            }
+        }
+        return validas;
+    }
+
+    public List<Reserva> obtenerReservasConfirmadas() {
+        List<Reserva> validas = new ArrayList<>();
+        for (Reserva r : reservas.values()) {
+            if (r.isConfirmada()) {
+                validas.add(r);
+            }
+        }
+        return validas;
+    }
+
+    public List<Habitacion> obtenerHabitacionesModificables() {
 
         List<Habitacion> lista = new ArrayList<>();
 
@@ -207,93 +298,8 @@ public class Hotel {
         return false;
     }
 
-    /*
-     * mediante el anterior metodo se listan las hab libres y se pide que se
-     * seleccione una. Se retorna en caso de que los datos sean erroneos va a
-     * devolver una hab null Deberia tratarse mejor
-     */
-    public Habitacion seleccionarHabitacionParaReserva(Scanner scan) {
-        listadoHabitacionesPorTipo(scan);
-        System.out.println("Ingrese el numero de habitacion a seleccionar: \n");
-        String hab = scan.nextLine();
-        Habitacion aux = null;
 
-        for (Map.Entry<String, Habitacion> entry : habitaciones.entrySet()) {
-            Habitacion value = entry.getValue();
-            String key = entry.getKey();
-            if (hab.equals(key)) {
-                aux = value;
-            }
-        }
-        verReservasHabitacion(hab);
-
-        if (aux == null) {
-            System.out.println("Los datos ingresados son incorrectos \n");
-            aux = seleccionarHabitacionParaReserva(scan);
-        }
-        return aux;
-
-    }
-
-    public void verReservasHabitacion(String numeroHab) {
-        boolean valido = false;
-        for (Reserva r : reservas.values()) {
-            if (r.getHabitacion().getNumero().equals(numeroHab)) {
-                while (valido == false) {
-                    System.out
-                            .println("Existen reservas pertenecientes a dicha habitacion:");
-                    valido = true;
-                }
-                System.out.println(r);
-            }
-        }
-    }
-
-    /*
-     *  05/06/2018 se crearon los siguientes 3 metodos
-     */
-    public void cancelarReserva(Scanner scan) {
-        boolean validar = false;
-        boolean validar2 = false;
-        while (!validar) {
-            System.out.println("Ingrese el numero de reserva que desea cancelar:");
-            String numero = scan.nextLine();
-
-            for (Map.Entry<String, Reserva> entry : reservas.entrySet()) {
-                if (numero.equals(entry.getKey())) {
-
-                    validar2 = true;
-                    System.out.println("Se ha eliminado la siguiente reserva: " + entry.getValue());
-                    reservas.remove(entry.getValue());
-                }
-            }
-
-            if (!validar2) {
-                System.out.println("No se ha encontrado ninguna reserva con ese numero");
-                System.out.println("Desea volver a intentarlo? s/n");
-                String opcion = scan.nextLine();
-
-                if (!opcion.equals("s")) {
-                    validar = true;
-                }
-            }
-        }
-
-    }
-
-    public void listarTodosLosClientes() {
-        for (Cliente c : clientes.values()) {
-            System.out.println(c);
-        }
-    }
-
-    public void listarTodasLasReservas() {
-        for (Reserva r : reservas.values()) {
-            System.out.println(r);
-        }
-    }
-
-    /* getters and setters */
+    /*getters y setters*/
     public Admin getAdmin() {
         return admin;
     }
@@ -318,39 +324,7 @@ public class Hotel {
         return reservas;
     }
 
-    /*
-     * 30/05/2018 metodos para agregar elementos a los mapas PREGUNTA:
-     * Deberiamos usar tipo generico?
-     */
-    public void agregarConserje(Conserje c) {
-        conserjes.put(c.getId(), c);
-    }
-
-    public void agregarHabitacion(Habitacion h) {
-        habitaciones.put(h.getNumero(), h);
-    }
-
-    public void agregarCliente(Cliente c) {
-        clientes.put(c.getDni(), c);
-    }
-
-    public void agregarReserva(Reserva r) {
-        reservas.put(r.getNroReserva(), r);
-    }
-
-    public void removerReserva(String key) {
-        reservas.remove(key);
-    }
-
-    public void removerCliente(String key) {
-        clientes.remove(key);
-    }
-
-    public void removerHabitacion(String key) {
-        habitaciones.remove(key);
-    }
-
-    public void removerConserje(String key) {
-        conserjes.remove(key);
+    public Double getTotalIngresos() {
+        return totalIngresos;
     }
 }

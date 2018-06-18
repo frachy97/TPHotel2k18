@@ -64,9 +64,11 @@ public class FechaHoraUtil {
     public static boolean hayConflictosConFechaDeReserva(LocalDate inicioNueva, LocalDate salidaNueva,
                                                          LocalDate inicioExistente, LocalDate salidaExistente) {
 
-        if (inicioNueva.isBefore(inicioExistente) && salidaNueva.isBefore(inicioExistente)) {
+        if (inicioNueva.isBefore(inicioExistente)
+                && (salidaNueva.isBefore(inicioExistente) || salidaNueva.isEqual(inicioExistente))) {
             return false;
-        } else if (inicioNueva.isAfter(salidaExistente) && salidaNueva.isAfter(salidaExistente)) {
+        } else if ((inicioNueva.isAfter(salidaExistente) || inicioNueva.isEqual(salidaExistente))
+                && salidaNueva.isAfter(salidaExistente)) {
             return false;
         }
         return true;

@@ -55,13 +55,14 @@ public class Cliente implements Serializable {
         return apellido + ", " + nombre;
     }
 
+    public List<String> getHistorial() {
+        return historial;
+    }
+
     @Override
     public String toString() {
         return "\nDNI: " + dni + "\nNombre: " + apellido + ", " + nombre + "\nDireccion: " +
                 direccion + "\nNacionalidad: " + nacionalidad.toString() + "\n";
     }
 
-    public List<String> getHistorial() {
-        return historial;
-    }
 }
