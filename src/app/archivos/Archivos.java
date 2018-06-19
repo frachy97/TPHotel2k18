@@ -1,18 +1,23 @@
 package app.archivos;
 
-import java.io.File;
-
+/**
+ * Clase contenedora de rutas donde se guardará y leerá la información relevante para la administración del hotel.
+ * Sus atributos son estáticos y finales. Esta clase no es instanciable.
+ */
 public class Archivos {
 
-    /*30/05/2018 Variables estaticas creadas.*/
-    /*07/06/2018 trabajar con strings o File?? :V*/
-    public static final File DIR = new File("dir/");
-    public static final File ADMIN = new File(DIR, "admin.dat");
-    public static final File CONSERJES = new File(DIR, "conserjes.dat");
-    public static final File CLIENTES = new File(DIR, "clientes.dat");
-    public static final File RESERVAS = new File(DIR, "reservas.dat");
-    public static final String RESERVAS_S = DIR + "reservas.dat";
-    public static final File HABITACIONES = new File(DIR, "habitaciones.dat");
-    public static final File INGRESOS = new File(DIR, "ingresos.dat");
-    public static final File CONTADOR_RESERVAS = new File(DIR, "contador_reservas.dat");
+
+    /*19/06/2018 Reemplazo de File por String*/
+    public static final String DIR = "dir/";
+
+    public static final String ADMIN = DIR + "admin.dat";
+    public static final String CONSERJES = DIR + "conserjes.dat";
+    public static final String CLIENTES = DIR + "clientes.dat";
+    public static final String RESERVAS = DIR + "reservas.dat";
+    public static final String HABITACIONES = DIR + "habitaciones.dat";
+    public static final String INGRESOS = DIR + "ingresos.dat";
+    public static final String CONTADOR_RESERVAS = DIR + "contador_reservas.dat";
+
+    private Archivos() {
+    }
 }
