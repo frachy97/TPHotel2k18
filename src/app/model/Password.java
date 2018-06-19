@@ -1,7 +1,14 @@
+/*JavaDoc concretado*/
+
 package app.model;
 
 import java.io.Serializable;
 
+/**
+ * Clase que contiene como unico atributo propio un string. Todos los usuarios dentro del sistema deben disponer de
+ * un Password para poder iniciar sesion.
+ * @see Usuario
+ */
 public class Password implements Serializable {
 
     private static final int LONGITUD_MIN = 8;

@@ -1,3 +1,5 @@
+/*JavaDoc concretado*/
+
 package app.model;
 
 import app.archivos.Archivos;
@@ -10,18 +12,42 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * Clase concreta perteneciente al objeto Hotel. Conserje, junto con Admin, es una clase concreta derivada de Usuario.
+ * Conserjes tienen la capacidad de dar alta a reservas, cancelarlas, registrar informacion de clientes y gestionar
+ * check-in y check-out, entre otras acciones.
+ *
+ * @see Hotel
+ * @see Usuario
+ * @see Admin
+ */
 public class Conserje extends Usuario {
 
     private boolean habilitado = false;
 
+    /**
+     * Constructor unico para la clase. Se asignan un String que corresponde al nombre de usuario, un Password y un
+     * nombre personal.
+     *
+     * @param id       el String identificador
+     * @param password el Password
+     * @param nombre   el nombre personal
+     * @see Password
+     */
     public Conserje(String id, Password password, String nombre) {
         super(id, password, nombre);
     }
 
-
+    /**
+     * Crea una reserva y la da de alta en el sistema.
+     *
+     * @param scanner El scanner necesario para el ingreso de datos por teclado
+     * @param hotel   El hotel que contiene los datos relevantes que ayudan a determinar si hay posibles conflictos
+     *                a la hora de generar la reserva
+     * @return la reserva creada
+     */
     public Reserva altaReserva(Scanner scanner, Hotel hotel) {
 
         Reserva reserva = null;
@@ -35,7 +61,7 @@ public class Conserje extends Usuario {
         while (!confirmarReserva) {
             boolean fechaValida = false;
             System.out.println("CREACION DE LA RESERVA\n");
-            while (repetir == true) {
+            while (repetir) {
                 System.out.println("1-Crear Cliente");
                 System.out.println("2-Buscar Cliente");
                 String opcion = scanner.nextLine();
@@ -62,29 +88,26 @@ public class Conserje extends Usuario {
             while (!fechaValida) {
                 try {
                     System.out.println("Ingrese fecha ingreso (dd/MM/yyyy): ");
-                    ingreso = LocalDate.parse(scanner.nextLine(),
-                            FechaHoraUtil.formatoFecha);
+                    ingreso = LocalDate.parse(scanner.nextLine(), FechaHoraUtil.formatoFecha);
                     if (FechaHoraUtil.yaEsPasada(ingreso)) {
+
                         throw new Exception("La fecha ya es pasada");
                     }
                     System.out.println("Ingrese fecha salida (dd/MM/yyyy): ");
-                    salida = LocalDate.parse(scanner.nextLine(),
-                            FechaHoraUtil.formatoFecha);
-                    if (FechaHoraUtil.yaEsPasada(salida)
-                            || salida.isEqual(ingreso)) {
-                        throw new Exception(
-                                "La fecha ya es pasada o es la misma que la de ingreso.");
+                    salida = LocalDate.parse(scanner.nextLine(), FechaHoraUtil.formatoFecha);
+                    if (FechaHoraUtil.yaEsPasada(salida) || salida.isEqual(ingreso)) {
+
+                        throw new Exception("La fecha ya es pasada o es la misma que la de ingreso.");
                     }
 
                     for (Reserva r : hotel.getReservas().values()) {
-                        if (r.getHabitacion().getNumero()
-                                .equals(hAux.getNumero())) {
-                            if (FechaHoraUtil.hayConflictosConFechaDeReserva(
-                                    ingreso, salida, r.getFechaIngreso(),
-                                    r.getFechaSalida())) {
-                                throw new Exception(
-                                        "Existen conflictos con una reserva ya existente: "
-                                                + r);
+
+                        if (r.getHabitacion().getNumero().equals(hAux.getNumero())) {
+
+                            if (FechaHoraUtil.hayConflictosConFechaDeReserva(ingreso, salida,
+                                    r.getFechaIngreso(), r.getFechaSalida())) {
+
+                                throw new Exception("Existen conflictos con una reserva ya existente: " + r);
                             }
                         }
 
@@ -124,35 +147,56 @@ public class Conserje extends Usuario {
         return reserva;
     }
 
+    /**
+     * Cancela una reserva ya generada. El metodo no realiza nada si el dato introducido no corresponde a una reserva
+     * creada o si el usuario no confirma la cancelacion de la misma.
+     *
+     * @param scanner El scanner necesario para el ingreso de datos por teclado
+     * @param hotel   El hotel que contiene la informacion de las reservas dadas de alta
+     */
     public void cancelarReserva(Scanner scanner, Hotel hotel) {
-        boolean validar = false;
-        boolean validar2 = false;
-        while (!validar) {
-            System.out.println("Ingrese el numero de reserva que desea cancelar:");
-            String numero = scanner.nextLine();
 
-            for (Map.Entry<String, Reserva> entry : hotel.getReservas().entrySet()) {
-                if (numero.equals(entry.getKey())) {
+        System.out.println("Ingrese el numero de reserva que desea cancelar:");
+        String numero = scanner.nextLine();
+        boolean eliminado = false;
+        boolean encontrado = false;
+        Reserva aux = null;
 
-                    validar2 = true;
-                    System.out.println("Se ha eliminado la siguiente reserva: " + entry.getValue());
-                    hotel.getReservas().remove(entry.getValue());
-                    break;
-                }
+        for (Reserva r : hotel.getReservas().values()) {
+            if (numero.equals(r.getNroReserva())) {
+                aux = r;
+                encontrado = true;
             }
+        }
 
-            if (!validar2) {
-                System.out.println("No se ha encontrado ninguna reserva con ese numero");
-                System.out.println("Desea volver a intentarlo? s/n");
-                String opcion = scanner.nextLine();
+        System.out.println("Usted esta por cancelar la siguiente reserva: \n");
+        System.out.println(aux);
+        Menu.confirmarConTeclaS();
+        String confirmacion = scanner.nextLine();
 
-                if (!opcion.equals("s")) {
-                    validar = true;
-                }
+        if (confirmacion.equals("s") || confirmacion.equals("S")) {
+            hotel.getReservas().remove(aux.getNroReserva());
+            eliminado = true;
+        }
+
+        if (encontrado) {
+            if (eliminado) {
+                System.out.println("Reserva cancelada.");
+            } else {
+                System.out.println("La reserva no se ha cancelado.");
             }
+        } else {
+            System.out.println("El codigo no es valido");
         }
     }
 
+    /**
+     * Confirma la estadia de un cliente en la habitacion. Cambia los estados de la reserva y la habitacion
+     * correspondiente a la reserva
+     *
+     * @param scanner El scanner necesario para el ingreso de datos por teclado
+     * @param hotel   El hotel que contiene la informacion de las reservas dadas de alta
+     */
     public void checkIn(Scanner scanner, Hotel hotel) {
 
         List<Reserva> reservas = hotel.obtenerReservasDeLaFecha();
@@ -198,6 +242,16 @@ public class Conserje extends Usuario {
         }
     }
 
+    /**
+     * Calcula el total correspondiente a la estadia, sumando la cantidad de noches por el total de la habitacion
+     * por dia, mas posibles consumos que haya solicitado el cliente. Esta funcion arroja una excepcion si no
+     * encuentra la reserva para check-out, y debe manejarse debidamente
+     *
+     * @param scanner El scanner necesario para el ingreso de datos por teclado
+     * @param hotel   El hotel que contiene la informacion de las reservas dadas de alta
+     * @return el monto a pagar
+     * @throws Exception Si no encuentra reservas validas para realizar check-out
+     */
     /*05/06/2018 Retorna el precio total de la reserva, incluyendo consumos, para que sea atrapado
     por el controlador y lo sume a la variable Double ingresosdentro de la clase Hotel*/
     public double checkOut(Scanner scanner, Hotel hotel) throws Exception {
@@ -250,39 +304,71 @@ public class Conserje extends Usuario {
 
     }
 
+    /**
+     * Agrega un consumo de la lista fija de productos a una reserva confirmada.
+     *
+     * @param scanner El scanner necesario para el ingreso de datos por teclado
+     * @param hotel   El hotel que contiene la informacion de las reservas confirmadas
+     */
     /*Muestra el listado de Productos y da a seleccionar cual se agrega a la cuenta.*/
-    public void agregarConsumo(Scanner scanner, Reserva aux) {
-        boolean validar = false;
-        boolean validar2 = false;
-        String numero = null;
-        while (!validar) {
-            while (!validar2) {
-                Menu.listadoProductos();
-                System.out.println("\nSelecciona el numero de producto:");
-                numero = scanner.nextLine();
-                /*
-                 * Verifico que el numero ingresado no sea mayor a la cantidad
-                 * de Productos
-                 */
-                if (Integer.parseInt(numero) > Producto.values().length) {
-                    System.out
-                            .println("El dato ingresado es incorrecto, reintente.");
-                } else {
-                    validar2 = true;
-                }
-            }
-            aux.getConsumos().add(Producto.buscarPorID(numero));
-            System.out.println("Se ha agregado " + Producto.buscarPorID(numero) + " a la reserva.");
-            System.out.println("Desea agregar otro producto? s/n");
-            String opcion = scanner.nextLine();
-            if (!opcion.equals("s")) {
-                validar = true;
-            }
+    public void agregarConsumo(Scanner scanner, Hotel hotel) {
+
+        List<Reserva> validas = hotel.obtenerReservasConfirmadas();
+        Reserva aux = null;
+
+        System.out.println("Escoja una reserva de las siguientes: ");
+        for (Reserva r : validas) {
+            System.out.println(r);
         }
 
+        String codigo = scanner.nextLine();
+
+        for (Reserva r : validas) {
+            if (codigo.equals(r.getNroReserva())) {
+                aux = r;
+            }
+
+            if (aux != null) {
+                while (true) {
+                    int numero;
+                    Menu.listadoProductos();
+                    System.out.println("\nSeleccione el numero de producto: ");
+                    String opcion = scanner.nextLine();
+
+                    try {
+                        numero = Integer.parseInt(opcion);
+                    } catch (NumberFormatException e) {
+                        numero = 0;
+                    }
+                    if (numero <= 0 || numero > Producto.values().length) {
+                        System.out.println("El dato es incorrecto.");
+                        break;
+                    } else {
+                        r.agregarConsumo(Producto.buscarPorID(opcion));
+                        System.out.println("Se ha agregado " + Producto.buscarPorID(opcion) + " a la reserva");
+                        System.out.println("Agregar otro producto? s/n: ");
+                        opcion = scanner.nextLine();
+
+                        if (!opcion.equals("S") && !opcion.equals("s")) {
+                            break;
+                        }
+                    }
+                }
+            } else {
+                System.out.println("El codigo no es valido.");
+            }
+        }
     }
 
-    /*Se crea un cliente si se confirma, sino se vuelve a crear esto es por si los datos ingresados son no queridos*/
+    /**
+     * Crea un cliente y lo registra en el sistema. Esto se hace unicamente cuando se desea generar una reserva y
+     * la informacion del cliente no se encuentra aun registrada en el sistema.
+     * @param scanner El scanner necesario para el ingreso de datos por teclado
+     * @param hotel El hotel que contiene la lista de clientes registrados
+     * @return
+     */
+    /*Se crea un cliente si se confirma, sino se vuelve a crear.
+    Esto es por si los datos ingresados son no deseados*/
     public Cliente altaCliente(Scanner scanner, Hotel hotel) {
         System.out.println("CREACION DE CLIENTE\n");
         System.out.println("Ingrese nombre:");
@@ -306,12 +392,18 @@ public class Conserje extends Usuario {
             System.out.println("Se ha creado el siguiente Cliente " + aux);
             return aux;
         } else {
-            Cliente aux = altaCliente(scanner, hotel);// recursividad, se vuelve a crear
             // el cliente
-            return aux;
+            return altaCliente(scanner, hotel);
         }
     }
 
+    /**
+     * Busca un cliente dentro del mapa de clientes en el objeto Hotel y lo retorna.
+     * ADVERTENCIA: el metodo puede retornar null. Asegurar su llamado manejandolo apropiadamente.
+     * @param scanner El scanner necesario para el ingreso de datos por teclado
+     * @param hotel El hotel que contiene la lista de clientes registrados
+     * @return el cliente
+     */
     /*Este metodo busca un cliente x dni si no lo encuentra retorna null*/
     public Cliente buscarCliente(Scanner scanner, Hotel hotel) {
         System.out.println("Ingrese dni del Cliente a buscar: ");
@@ -319,12 +411,10 @@ public class Conserje extends Usuario {
 
         Cliente aux = null;
 
-        for (Map.Entry<String, Cliente> entry : hotel.getClientes().entrySet()) {
+        for (Cliente c : hotel.getClientes().values()) {
 
-            Cliente value = entry.getValue();
-            String key = entry.getKey();
-            if (key.equals(dni)) {
-                aux = value;
+            if (c.getDni().equals(dni)) {
+                aux = c;
                 break;
             }
         }
@@ -344,7 +434,11 @@ public class Conserje extends Usuario {
         return aux;
     }
 
-    /*Opcion para modificar datos de un cliente. Deberia ser capaz de buscar al cliente en vez de pasarselo x parametro*/
+    /**
+     * Modifica los datos del cliente y lo registra nuevamente en el sistema.
+     * @param scanner El scanner necesario para el ingreso de datos por teclado
+     * @param hotel El hotel que contiene la lista de clientes registrados
+     */
     public void modificarCliente(Scanner scanner, Hotel hotel) {
         Cliente aux = buscarCliente(scanner, hotel);
         if (aux == null) {
@@ -385,10 +479,18 @@ public class Conserje extends Usuario {
 
     }
 
+    /**
+     * Modifica el estado del conserje. Si se deshabilita, el conserje no podra realizar ningun tipo de actividad
+     * al cerrar sesion.
+     */
     public void cambiarEstadoHabilitado() {
         habilitado = !habilitado;
     }
 
+    /**
+     * Representacion textual del conserje. Provee informacion relevante correspondiente al conserje.
+     * @return el String con la informacion correspondiente
+     */
     @Override
     public String toString() {
         return super.toString() + "\nHabilitado: " + habilitado + "\n";

@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class Controlador {
 
-    private Scanner input = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
     private Hotel hotel;
 
     public Controlador(Hotel hotel) {
@@ -32,9 +32,9 @@ public class Controlador {
         while (!loginExitoso) {
 
             System.out.print("Ingrese ID: ");
-            String idLogin = input.nextLine();
+            String idLogin = scanner.nextLine();
             System.out.print("Ingrese clave: ");
-            String idPassword = input.nextLine();
+            String idPassword = scanner.nextLine();
 
             /*Autenticacion de credenciales para Admin*/
             if (idLogin.equals(hotel.getAdmin().getId()) &&
@@ -56,25 +56,25 @@ public class Controlador {
                 /*Menu de Admin*/
                 do {
                     Menu.adminMain();
-                    opcion = input.nextLine();
+                    opcion = scanner.nextLine();
                     switch (opcion) {
                         /*Submenu conserjes*/
                         case "1":
                             String subOpcion1 = null;
                             do {
                                 Menu.adminSubMenuConserjes();
-                                subOpcion1 = input.nextLine();
+                                subOpcion1 = scanner.nextLine();
                                 switch (subOpcion1) {
                                     case "1":
-                                        hotel.agregarConserje(admin.altaConserje(input));
+                                        hotel.agregarConserje(admin.altaConserje(scanner));
                                         IOGenericoUtil.escribirObjeto(hotel.getConserjes(), Archivos.CONSERJES);
                                         break;
                                     case "2":
-                                        admin.cambiarEstadoConserje(hotel, input);
+                                        admin.cambiarEstadoConserje(hotel, scanner);
                                         IOGenericoUtil.escribirObjeto(hotel.getConserjes(), Archivos.CONSERJES);
                                         break;
                                     case "3":
-                                        admin.eliminarConserje(hotel, input);
+                                        admin.eliminarConserje(hotel, scanner);
                                         IOGenericoUtil.escribirObjeto(hotel.getConserjes(), Archivos.CONSERJES);
                                         break;
                                     case "4":
@@ -93,22 +93,22 @@ public class Controlador {
                             String subOpcion2 = null;
                             do {
                                 Menu.adminSubMenuHabitaciones();
-                                subOpcion2 = input.nextLine();
+                                subOpcion2 = scanner.nextLine();
                                 switch (subOpcion2) {
                                     case "1":
-                                        hotel.agregarHabitacion(admin.agregarHabitacion(input));
+                                        hotel.agregarHabitacion(admin.agregarHabitacion(scanner));
                                         IOGenericoUtil.escribirObjeto(hotel.getHabitaciones(), Archivos.HABITACIONES);
                                         break;
                                     case "2":
-                                        admin.modificarTipoHabitacion(input, hotel);
+                                        admin.modificarTipoHabitacion(scanner, hotel);
                                         IOGenericoUtil.escribirObjeto(hotel.getHabitaciones(), Archivos.HABITACIONES);
                                         break;
                                     case "3":
-                                        admin.modificarPrecioHabitacion(input, hotel);
+                                        admin.modificarPrecioHabitacion(scanner, hotel);
                                         IOGenericoUtil.escribirObjeto(hotel.getHabitaciones(), Archivos.HABITACIONES);
                                         break;
                                     case "4":
-                                        admin.eliminarHabitacion(input, hotel);
+                                        admin.eliminarHabitacion(scanner, hotel);
                                         IOGenericoUtil.escribirObjeto(hotel.getHabitaciones(), Archivos.HABITACIONES);
                                         break;
                                     case "0":
@@ -123,13 +123,13 @@ public class Controlador {
                             String subOpcion3 = null;
                             do {
                                 Menu.adminSubMenuClientes();
-                                subOpcion3 = input.nextLine();
+                                subOpcion3 = scanner.nextLine();
                                 switch (subOpcion3) {
                                     case "1":
                                         hotel.listarTodosLosClientes();
                                         break;
                                     case "2":
-                                        admin.eliminarCliente(input, hotel);
+                                        admin.eliminarCliente(scanner, hotel);
                                         break;
                                     case "0":
                                         break;
@@ -144,13 +144,13 @@ public class Controlador {
                             String subOpcion4 = null;
                             do {
                                 Menu.subMenuInfoPropia();
-                                subOpcion4 = input.nextLine();
+                                subOpcion4 = scanner.nextLine();
                                 switch (subOpcion4) {
                                     case "1":
                                         System.out.println(admin);
                                         break;
                                     case "2":
-                                        admin.modificarDatosUsuario(input);
+                                        admin.modificarDatosUsuario(scanner);
                                         IOGenericoUtil.escribirObjeto(hotel.getAdmin(), Archivos.ADMIN);
                                         break;
                                     case "0":
@@ -178,7 +178,7 @@ public class Controlador {
                 /*Menu de Conserje*/
                 do {
                     Menu.conserjeMain();
-                    opcion = input.nextLine();
+                    opcion = scanner.nextLine();
                     switch (opcion) {
                         /*Submenu reservas*/
                         case "1":
@@ -189,19 +189,19 @@ public class Controlador {
                                 String subOpcion1 = null;
                                 do {
                                     Menu.conserjeSubMenuReservas();
-                                    subOpcion1 = input.nextLine();
+                                    subOpcion1 = scanner.nextLine();
                                     switch (subOpcion1) {
                                         case "1":
-                                            hotel.agregarReserva(conserje.altaReserva(input, hotel));
+                                            hotel.agregarReserva(conserje.altaReserva(scanner, hotel));
                                             IOGenericoUtil.escribirObjeto(hotel.getReservas(), Archivos.RESERVAS);
                                             break;
                                         case "2":
-                                            conserje.checkIn(input, hotel);
+                                            conserje.checkIn(scanner, hotel);
                                             IOGenericoUtil.escribirObjeto(hotel.getReservas(), Archivos.RESERVAS);
                                             break;
                                         case "3":
                                             try {
-                                                hotel.agregarIngreso(conserje.checkOut(input, hotel));
+                                                hotel.agregarIngreso(conserje.checkOut(scanner, hotel));
                                                 IOGenericoUtil.escribirObjeto(hotel.getTotalIngresos(), Archivos.INGRESOS);
                                                 IOGenericoUtil.escribirObjeto(hotel.getReservas(), Archivos.RESERVAS);
                                             } catch (Exception e) {
@@ -212,10 +212,12 @@ public class Controlador {
                                             hotel.listarTodasLasReservas();
                                             break;
                                         case "5":
-                                            System.out.println("opcion 5");
+                                            conserje.cancelarReserva(scanner, hotel);
+                                            IOGenericoUtil.escribirObjeto(hotel.getReservas(), Archivos.RESERVAS);
                                             break;
                                         case "6":
-                                            System.out.println("opcion 6");
+                                            conserje.agregarConsumo(scanner, hotel);
+                                            IOGenericoUtil.escribirObjeto(hotel.getReservas(), Archivos.RESERVAS);
                                             break;
                                         case "0":
                                             break;
@@ -231,13 +233,13 @@ public class Controlador {
                             String subOpcion2 = null;
                             do {
                                 Menu.conserjeSubMenuClientes();
-                                subOpcion2 = input.nextLine();
+                                subOpcion2 = scanner.nextLine();
                                 switch (subOpcion2) {
                                     case "1":
                                         System.out.println("Opcion 1 seleccionada");
                                         break;
                                     case "2":
-                                        conserje.modificarCliente(input, hotel);
+                                        conserje.modificarCliente(scanner, hotel);
                                         break;
                                     case "0":
                                         break;
@@ -256,7 +258,7 @@ public class Controlador {
                             String subOpcion3 = null;
                             do {
                                 Menu.conserjeSubMenuHabitaciones();
-                                subOpcion3 = input.nextLine();
+                                subOpcion3 = scanner.nextLine();
                                 switch (subOpcion3) {
                                     case "1":
                                         hotel.listarHabitacionesLibres();
@@ -277,13 +279,13 @@ public class Controlador {
                             String subOpcion4 = null;
                             do {
                                 Menu.subMenuInfoPropia();
-                                subOpcion4 = input.nextLine();
+                                subOpcion4 = scanner.nextLine();
                                 switch (subOpcion4) {
                                     case "1":
                                         System.out.println(conserje);
                                         break;
                                     case "2":
-                                        conserje.modificarDatosUsuario(input);
+                                        conserje.modificarDatosUsuario(scanner);
                                         IOGenericoUtil.escribirObjeto(hotel.getConserjes(), Archivos.CONSERJES);
                                         break;
                                     case "0":

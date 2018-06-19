@@ -6,9 +6,23 @@ import app.menus.Menu;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Clase que administra las cuentas de conserjes, las habitaciones y los clientes dentro del
+ * sistema. Se pretende que solo haya una instancia de admin, aunque se permite que existan mas.
+ * @see Cliente
+ * @see Conserje
+ * @see Habitacion
+ */
 public class Admin extends Usuario {
 
 
+    /**
+     * Constrcutor que asigna el id de usuario, un Password y un nombre personal
+     * @see Password
+     * @param id 
+     * @param password
+     * @param nombre
+     */
     public Admin(String id, Password password, String nombre) {
         super(id, password, nombre);
     }
@@ -17,6 +31,7 @@ public class Admin extends Usuario {
     public static Admin proveerDefaultAdmin() {
         return new Admin("admin", new Password("password"), "nombre");
     }
+
     /**
      * El administrador da de alta un nuevo Conserje.
      *

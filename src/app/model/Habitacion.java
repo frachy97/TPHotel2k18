@@ -1,10 +1,18 @@
-package app.model;
+/*JavaDoc concretado*/
 
+package app.model;
 
 import app.enums.TipoHab;
 
 import java.io.Serializable;
 
+/**
+ * Clase que conforma a un objeto Hotel y que es parte de una reserva. Posee un numero unico de identificacion, tipo
+ * (individual, matrimonial, familiar), su precio por dia y diferentes estados, que segun ellos, le permiten a la
+ * habitacion ser modificada o no.
+ *
+ * @see Hotel
+ */
 public class Habitacion implements Serializable {
 
     private String numero;
@@ -14,6 +22,14 @@ public class Habitacion implements Serializable {
     /*Si es 'false', es modificable*/
     private boolean habilitada;
 
+    /**
+     * Constructor unico. Se asigna numero de identificacion, el tipo de habitacion (ver descripcion general de la
+     * clase) y su precio por dia.
+     *
+     * @param numero       su identificador
+     * @param tipo         su tipo
+     * @param precioPorDia su precio por dia
+     */
     public Habitacion(String numero, TipoHab tipo, double precioPorDia) {
         this.numero = numero;
         this.tipo = tipo;
@@ -22,35 +38,76 @@ public class Habitacion implements Serializable {
         habilitada = true;
     }
 
-    public void cambiarEstadoHabilitado(){
+    /**
+     * Cambia el estado de la habitacion entre habilitada y deshabilitada.
+     */
+    public void cambiarEstadoHabilitado() {
         habilitada = !habilitada;
     }
 
+    /**
+     * Devuelve el tipo de la habitacion
+     * @return su tipo
+     */
     public TipoHab getTipo() {
         return tipo;
     }
 
+    /**
+     * Asigna un nuevo tipo a la habitacion. Notese que esto solo es posible si la habitacion esta habilitada para
+     * modificaciones.
+     * @param tipo El tipo de habitacion a asignar
+     */
+    public void setTipo(TipoHab tipo) {
+        this.tipo = tipo;
+    }
+
+    /**
+     * Obtiene el numero de identificacion de la habitacion.
+     * @return el numero de identificacion
+     */
     public String getNumero() {
         return numero;
     }
 
-
+    /**
+     * Devuelve el estado de la habitacion, es decir, si esta habilitada o no.
+     * @return true o false, segun su estado
+     */
     public boolean elEstado() {
         return estado;
     }
 
+    /**
+     * Asigna un estado a la habitacion.
+     * @param estado true o false
+     */
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
 
+    /**
+     * Obtiene el precio por dia de la habitacion. Necesario para el proceso de Check-out.
+     * @see Conserje
+     * @return el valor correspondiente a una noche de estadia en la habitacion
+     */
     public double getPrecioPorDia() {
         return precioPorDia;
     }
 
+    /**
+     * Asigna un valor nuevo para la habitacion. Notese que esto solo es posible si la habitacion esta habilitada
+     * para modificaciones.
+     * @param precioPorDia
+     */
     public void setPrecioPorDia(double precioPorDia) {
         this.precioPorDia = precioPorDia;
     }
 
+    /**
+     * Devuelve una representacion textual del estado de la habitacion.
+     * @return el String correspondiente al estado
+     */
     public String toStringEstadoHab() {
         String aux;
         if (estado == true) {
@@ -61,13 +118,13 @@ public class Habitacion implements Serializable {
         return aux;
     }
 
+    /**
+     * Representacion textual de la habitacion. Provee informacion relevante correspondiente a la habitacion.
+     * @return el String con la informacion correspondiente
+     */
     @Override
     public String toString() {
         return "Habitacion " + numero + "\nTipo: " + tipo + "\nPrecio: " + precioPorDia + " x dia" + "\n" +
                 "Estado: " + toStringEstadoHab() + "\n";
-    }
-
-    public void setTipo(TipoHab individual) {
-        this.tipo = individual;
     }
 }
